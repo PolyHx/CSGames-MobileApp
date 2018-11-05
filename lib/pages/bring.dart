@@ -1,4 +1,5 @@
 import 'package:PolyHxApp/components/bullet-point.dart';
+import 'package:PolyHxApp/components/title.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
@@ -25,29 +26,6 @@ class BringPage extends StatelessWidget {
             )
           )
         ]
-      )
-    );
-  }
-
-  Widget _buildTitle(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.all(22.5),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: <Widget>[
-          Text(
-            _values['guide'],
-            textAlign: TextAlign.left,
-            style: TextStyle(
-              fontSize: 40.0,
-              fontFamily: 'Flipbash'
-            )
-          ),
-          Icon(
-            FontAwesomeIcons.clipboardCheck,
-            size: 45.0
-          )
-        ],
       )
     );
   }
@@ -94,7 +72,14 @@ class BringPage extends StatelessWidget {
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          _buildTitle(context),
+          AppTitle(
+            _values['guide'],
+            MainAxisAlignment.spaceBetween,
+            Icon(
+              FontAwesomeIcons.clipboardCheck,
+              size: 45.0
+            )
+          ),
           _buildCard(context)
         ]
       ),

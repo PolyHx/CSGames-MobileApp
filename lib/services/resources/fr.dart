@@ -8,11 +8,17 @@ Map<String, dynamic> fr = {
     'info': 'Info',
     'register': 'Inscription',
     'activities': 'Activités',
-    'profile': 'Profil'
+    'profile': 'Profil',
+    'sponsors': 'Commanditaires'
   },
   'profile': {
     'title': 'PROFIL',
     'scan': 'Scanner'
+  },
+  'sponsors': {
+    'title': 'COMMANDITAIRES',
+    'text': 'PolyHx est un rassemblement de divers clubs informatique de Polytechnique créé dans le but de faciliter l’implication technique en informatique. Nous organisons et participons à plusieurs événements et compétitions par année, tout en organisant ateliers, conférences et autres événements reliés à l’informatique. Nos membres sont passionnés et enthousiastes à l’idée d’enrichir leur formation à l’aide d’activités extracurriculaires dans le domaine.',
+    'done': 'Terminer'
   },
   'event-info': {
     'title': 'GUIDE',

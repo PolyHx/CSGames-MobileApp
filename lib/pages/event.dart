@@ -1,5 +1,5 @@
-import 'package:PolyHxApp/domain/user.dart';
 import 'package:PolyHxApp/pages/profile.dart';
+import 'package:PolyHxApp/pages/sponsors.dart';
 import 'package:PolyHxApp/redux/actions/activities-schedule-actions.dart';
 import 'package:PolyHxApp/redux/actions/attendee-retrieval-actions.dart';
 import 'package:PolyHxApp/services/localization.service.dart';
@@ -22,7 +22,7 @@ class EventPage extends StatefulWidget {
   _EventPageState createState() => _EventPageState();
 }
 
-enum EventTabs { Info, Scan, Activities, Profile }
+enum EventTabs { Info, Sponsors, Scan, Activities, Profile }
 
 class _EventPageState extends State<EventPage> {
   int _currentTabIndex = 0;
@@ -43,6 +43,9 @@ class _EventPageState extends State<EventPage> {
       case EventTabs.Profile:
         body = ProfilePage();
         break;
+      case EventTabs.Sponsors:
+        body = SponsorsPage();
+        break;
       default:
         break;
     }
@@ -60,6 +63,10 @@ class _EventPageState extends State<EventPage> {
       BottomNavigationBarItem(
         icon: Icon(FontAwesomeIcons.book),
         title: Text(_values['info'])
+      ),
+      BottomNavigationBarItem(
+        icon: Icon(FontAwesomeIcons.gem),
+        title: Text(_values['sponsors'])
       ),
       BottomNavigationBarItem(
         icon: Icon(Icons.camera_alt),

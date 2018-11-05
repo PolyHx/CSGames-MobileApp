@@ -1,32 +1,10 @@
+import 'package:PolyHxApp/components/title.dart';
 import 'package:flutter/material.dart';
 
 class HotelPage extends StatelessWidget {
   final Map<String, dynamic> _values;
 
   HotelPage(this._values);
-
-  Widget _buildTitle(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.all(22.5),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: <Widget>[
-          Text(
-            _values['guide'],
-            textAlign: TextAlign.left,
-            style: TextStyle(
-              fontSize: 40.0,
-              fontFamily: 'Flipbash'
-            )
-          ),
-          Icon(
-            Icons.hotel,
-            size: 45.0
-          )
-        ]
-      )
-    );
-  }
 
   Widget _buildMap(BuildContext context) {
     return Padding(
@@ -56,7 +34,14 @@ class HotelPage extends StatelessWidget {
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          _buildTitle(context),
+          AppTitle(
+            _values['guide'],
+            MainAxisAlignment.spaceBetween,
+            Icon(
+              Icons.hotel,
+              size: 45.0
+            )
+          ),
           _buildMap(context)
         ]
       ),

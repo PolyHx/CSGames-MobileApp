@@ -1,3 +1,4 @@
+import 'package:PolyHxApp/components/title.dart';
 import 'package:PolyHxApp/domain/event.dart';
 import 'package:PolyHxApp/pages/bring.dart';
 import 'package:PolyHxApp/pages/hotel.dart';
@@ -49,29 +50,6 @@ class EventInfoPage extends StatelessWidget {
       MaterialPageRoute(
         builder: (_) => widget,
         fullscreenDialog: true
-      )
-    );
-  }
-
-  Widget _buildTitle(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.all(22.5),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: <Widget>[
-          Text(
-            _getTranslation(context, 'title'),
-            textAlign: TextAlign.left,
-            style: TextStyle(
-              fontSize: 40.0,
-              fontFamily: 'Flipbash'
-            )
-          ),
-          Icon(
-            FontAwesomeIcons.thLarge,
-            size: 45.0
-          )
-        ]
       )
     );
   }
@@ -162,7 +140,14 @@ class EventInfoPage extends StatelessWidget {
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            _buildTitle(context),
+            AppTitle(
+              _getTranslation(context, 'title'),
+              MainAxisAlignment.spaceBetween,
+              Icon(
+                FontAwesomeIcons.thLarge,
+                size: 45.0
+              )
+            ),
             _buildTiles(context)
           ]
         );

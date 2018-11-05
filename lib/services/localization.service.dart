@@ -68,4 +68,8 @@ class LocalizationService {
   Map<String, dynamic> get profile {
     return values['profile'];
   }
+
+  Map<String, dynamic> get sponsors {
+    return values['sponsors'];
+  }
 }

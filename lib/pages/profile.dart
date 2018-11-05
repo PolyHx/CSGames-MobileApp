@@ -1,5 +1,6 @@
 import 'package:PolyHxApp/components/gravatar.dart';
 import 'package:PolyHxApp/components/pill-button.dart';
+import 'package:PolyHxApp/components/title.dart';
 import 'package:PolyHxApp/domain/user.dart';
 import 'package:PolyHxApp/redux/actions/profile-actions.dart';
 import 'package:PolyHxApp/redux/state.dart';
@@ -15,24 +16,6 @@ class ProfilePage extends StatelessWidget {
 
   String _getTranslation(BuildContext context, String element) {
     return _values == null ? LocalizationService.of(context).profile[element] : _values[element];
-  }
-
-  Widget _buildTitle(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.all(22.5),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: <Widget>[
-          Text(
-            _getTranslation(context, 'title'),
-            style: TextStyle(
-              fontFamily: 'Flipbash',
-              fontSize: 40.0
-            )
-          )
-        ]
-      )
-    );
   }
 
   Widget _buildAvatar(_ProfilePageViewModel model) {
@@ -97,7 +80,7 @@ class ProfilePage extends StatelessWidget {
       builder: (BuildContext _, _ProfilePageViewModel model) {
         return Column(
           children: <Widget>[
-            _buildTitle(context),
+            AppTitle(_getTranslation(context, 'title'), MainAxisAlignment.start),
             _buildAvatar(model),
             _buildName(model),
             _buildQR(model),

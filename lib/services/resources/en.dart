@@ -8,11 +8,17 @@ Map<String, dynamic> en = {
     'info': 'Info',
     'register': 'Register',
     'activities': 'Activities',
-    'profile': 'Profile'
+    'profile': 'Profile',
+    'sponsors': 'Sponsors'
   },
   'profile': {
     'title': 'PROFILE',
     'scan': 'Scan'
+  },
+  'sponsors': {
+    'title': 'SPONSORS',
+    'text': 'PolyHx is the result of a merge between several computer science clubs at Polytechnique. The main goal was to facilitate the implication in applied computer science by centralizing the administration. We organize and participate in many events and competitions every year, while also providing workshops, conferences and other computer-related events. Our members are passionate and motivated to improve their skills in their field of study through extracurricular activities.',
+    'done': 'Done'
   },
   'event-info': {
     'title': 'GUIDE',

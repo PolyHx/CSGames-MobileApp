@@ -5,7 +5,6 @@ import 'package:PolyHxApp/domain/user.dart';
 import 'package:PolyHxApp/redux/actions/profile-actions.dart';
 import 'package:PolyHxApp/redux/state.dart';
 import 'package:PolyHxApp/services/localization.service.dart';
-import 'package:PolyHxApp/utils/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:qr_flutter/qr_flutter.dart';

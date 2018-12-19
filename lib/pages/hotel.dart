@@ -37,10 +37,7 @@ class HotelPage extends StatelessWidget {
           AppTitle(
             _values['guide'],
             MainAxisAlignment.spaceBetween,
-            Icon(
-              Icons.hotel,
-              size: 45.0
-            )
+            Icons.hotel
           ),
           _buildMap(context)
         ]

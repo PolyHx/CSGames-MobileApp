@@ -71,7 +71,7 @@ class EventInfoPage extends StatelessWidget {
                 child: Column(
                   children: <Widget>[
                     Padding(
-                      padding: EdgeInsets.fromLTRB(0.0, 7.0, 0.0, 0.0),
+                      padding: EdgeInsets.only(top: 7.0),
                       child: Icon(
                         tile.icon,
                         size: 85.0,
@@ -79,7 +79,7 @@ class EventInfoPage extends StatelessWidget {
                       )
                     ),
                     Padding(
-                      padding: EdgeInsets.fromLTRB(0.0, 25.0, 0.0, 0.0),
+                      padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.03),
                       child: Text(
                         tile.title,
                         style: TextStyle(
@@ -143,10 +143,7 @@ class EventInfoPage extends StatelessWidget {
             AppTitle(
               _getTranslation(context, 'title'),
               MainAxisAlignment.spaceBetween,
-              Icon(
-                FontAwesomeIcons.thLarge,
-                size: 45.0
-              )
+              FontAwesomeIcons.thLarge
             ),
             _buildTiles(context)
           ]

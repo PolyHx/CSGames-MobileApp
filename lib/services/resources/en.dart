@@ -1,5 +1,6 @@
 Map<String, dynamic> en = {
   'login': {
+    'title': 'LOGIN',
     'pwd': 'Password',
     'email': 'Email',
     'login': 'Login'
@@ -13,12 +14,29 @@ Map<String, dynamic> en = {
   },
   'profile': {
     'title': 'PROFILE',
-    'scan': 'Scan'
+    'scan': 'Scan',
+    'scanned': 'Attendee Scanned',
+    'errors': {
+      'scan-title': 'Scanned attendee not found',
+      'scan-desc': 'Could not find the attendee scanned.',
+      'attendee-title': 'Current user not attending',
+      'attendee-desc': 'Current attendee is not registered to any events',
+      'permission-title': 'Pemission error',
+      'permission-desc': 'You don\'t have the user permission to access the camera.',
+      'save-title': 'Save error',
+      'save-desc': 'An error occured while saving the scanned attendee.',
+      'same-title': 'Scanned attendee error',
+      'same-desc': 'Can not add yourself as a scanned attendee.',
+      'register-title': 'Attendee not registered',
+      'register-desc': 'Current attendee is not registerd to this event.',
+      'register-scan-title': 'Attendee scanned not registered',
+      'register-scan-desc': 'Attendee scanned is not registerd to this event.'
+    }
   },
   'sponsors': {
     'title': 'SPONSORS',
-    'text': 'PolyHx is the result of a merge between several computer science clubs at Polytechnique. The main goal was to facilitate the implication in applied computer science by centralizing the administration. We organize and participate in many events and competitions every year, while also providing workshops, conferences and other computer-related events. Our members are passionate and motivated to improve their skills in their field of study through extracurricular activities.',
-    'done': 'Done'
+    'done': 'Done',
+    'error': 'An error occured while loading the sponsors.'
   },
   'event-info': {
     'title': 'GUIDE',
@@ -93,11 +111,23 @@ Map<String, dynamic> en = {
     'scan': 'Scan to Attend',
     'raffle': 'RAFFLE',
     'count': 'Attendee count',
+    'subscribe': 'Subscribe',
+    'subscribed': 'Subscribed!',
     'errors': {
       'tag-title': 'Tag not bound',
       'tag-desc': 'The scanned NFC tag is not bound to an attendee.',
       'user-title': 'User not found',
       'user-desc': 'The user does not exist.'
     }
+  },
+  'schedule': {
+    'title': 'SCHEDULE'
+  },
+  'info' : {
+    'title': 'INFO'
+  },
+  'notification': {
+    'title': 'Notifications',
+    'error': 'An error occured while loading the notifications'
   }
 };

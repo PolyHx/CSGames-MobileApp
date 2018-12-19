@@ -4,9 +4,7 @@ import 'package:PolyHxApp/domain/activity.dart';
 import 'package:PolyHxApp/redux/actions/activities-schedule-actions.dart';
 import 'package:PolyHxApp/redux/state.dart';
 import 'package:PolyHxApp/services/events.service.dart';
-import 'package:PolyHxApp/services/localization.service.dart';
 import 'package:PolyHxApp/services/schedule.service.dart';
-import 'package:flutter/material.dart';
 import 'package:redux_epics/redux_epics.dart';
 import 'package:rxdart/rxdart.dart';
 

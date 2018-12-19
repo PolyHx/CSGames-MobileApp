@@ -3,14 +3,14 @@ import 'package:flutter/material.dart';
 class AppTitle extends StatelessWidget {
   final String title;
   final MainAxisAlignment alignment;
-  final Widget icon;
+  final IconData icon;
 
   AppTitle(this.title, this.alignment, [this.icon]);
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.all(22.5),
+      padding: EdgeInsets.all(20.0),
       child: Row(
         mainAxisAlignment: this.alignment,
         children: <Widget>[
@@ -18,10 +18,15 @@ class AppTitle extends StatelessWidget {
             title,
             style: TextStyle(
               fontFamily: 'Flipbash',
-              fontSize: 40.0
+              fontSize: 36.0
             )
           ),
-          this.icon != null ? this.icon : Padding(padding: EdgeInsets.all(0.0))
+          this.icon != null
+            ? Icon(
+              this.icon,
+              size: 38.0
+            )
+            : Padding(padding: EdgeInsets.all(0.0))
         ]
       )
     );

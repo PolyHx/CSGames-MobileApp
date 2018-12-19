@@ -1,5 +1,6 @@
 Map<String, dynamic> fr = {
   'login': {
+    'title': 'CONNEXION',
     'pwd': 'Mot de passe',
     'email': 'Courriel',
     'login': 'Se connecter'
@@ -13,12 +14,29 @@ Map<String, dynamic> fr = {
   },
   'profile': {
     'title': 'PROFIL',
-    'scan': 'Scanner'
+    'scan': 'Scanner',
+    'scanned': 'Participant scanné',
+    'errors': {
+      'scan-title': 'Participant scanné introuvable',
+      'scan-desc': 'Impossible de trouver le participant scanné.',
+      'attendee-title': 'Utilisateur actuel non inscrit',
+      'attendee-desc': 'Le participant actuel n\'est pas inscrit à aucun événement.',
+      'permission-title': 'Erreur de permission',
+      'permission-desc': 'Vous ne disposez pas de l\'autorisation de l\'utilisateur pour accéder à la caméra.',
+      'save-title': 'Erreur de sauvegarde',
+      'save-desc': 'Une erreur s\'est produite lors de la sauvegarde du participant scanné.',
+      'same-title': 'Erreur du participant scanné',
+      'same-desc': 'Vous ne pouvez pas vous ajoutez à votre liste de participant scannés.',
+      'register-title': 'Participant actuel non inscrit',
+      'register-desc': 'Le participant actuel n\'est pas inscrit à l\'événement.',
+      'register-scan-title': 'Participant scanné non inscrit',
+      'register-scan-desc': 'Le participant scanné n\'est pas inscrit à l\'événement.'
+    }
   },
   'sponsors': {
     'title': 'COMMANDITAIRES',
-    'text': 'PolyHx est un rassemblement de divers clubs informatique de Polytechnique créé dans le but de faciliter l’implication technique en informatique. Nous organisons et participons à plusieurs événements et compétitions par année, tout en organisant ateliers, conférences et autres événements reliés à l’informatique. Nos membres sont passionnés et enthousiastes à l’idée d’enrichir leur formation à l’aide d’activités extracurriculaires dans le domaine.',
-    'done': 'Terminer'
+    'done': 'Terminer',
+    'error': 'Une erreur s\'est produite lors du chargement des commanditaires.'
   },
   'event-info': {
     'title': 'GUIDE',
@@ -93,11 +111,23 @@ Map<String, dynamic> fr = {
     'scan': 'Scanner pour Participer',
     'raffle': 'TIRAGE',
     'count': 'Nombre de participant',
+    'subscribe': 'S\'abonner',
+    'subscribed': 'Abonné!',
     'errors': {
       'tag-title': 'NFC non associé',
       'tag-desc': 'Le NFC scanné n\'est associé à un participant.',
       'user-title': 'Utilisateur introuvable',
       'user-desc': 'L\'utilisateur n\'existe pas.'
     }
+  },
+  'schedule': {
+    'title': 'HORAIRE'
+  },
+  'info' : {
+    'title': 'INFO'
+  },
+  'notification': {
+    'title': 'Notifications',
+    'error': 'Une erreur s\'est produite lors du chargement des notifications.'
   }
 };

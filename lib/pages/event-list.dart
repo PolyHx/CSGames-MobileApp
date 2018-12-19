@@ -1,3 +1,4 @@
+import 'package:PolyHxApp/redux/actions/attendee-retrieval-actions.dart';
 import 'package:PolyHxApp/redux/actions/login-actions.dart';
 import 'package:PolyHxApp/redux/actions/profile-actions.dart';
 import 'package:PolyHxApp/services/localization.service.dart';
@@ -18,35 +19,34 @@ class EventList extends StatelessWidget {
   Map<String, dynamic> _values;
 
   Widget _buildEventCards(_EventListPageViewModel model) {
-    if (!model.hasErrors) {
-      return PageTransformer(
-        pageViewBuilder: (_, visibilityResolver) {
-          return PageView.builder(
-            controller: PageController(viewportFraction: 0.85),
-            itemCount: model.events != null ? model.events.length : 0,
-            itemBuilder: (_, index) {
-              final item = model.events[index];
-              final pageVisibility = visibilityResolver.resolvePageVisibility(index);
-              return StoreConnector<AppState, VoidCallback>(
-                converter: (store) => () => store.dispatch(SetCurrentEventAction(item)),
-                builder: (BuildContext context, VoidCallback setCurrentEvent) {
-                  return EventPageItem(
-                    item: item,
-                    pageVisibility: pageVisibility,
-                    onTap: () {
-                      setCurrentEvent();
-                      Navigator.pushNamed(context, Routes.EVENT);
-                    }
-                  );
-                }
-              );
-            }
-          );
-        }
-      );
-    } else {
-      return Text(_values['error']);
-    }
+    return model.hasErrors
+      ? Text(_values['error'])
+      : PageTransformer(
+          pageViewBuilder: (_, visibilityResolver) {
+            return PageView.builder(
+              controller: PageController(viewportFraction: 0.85),
+              itemCount: model.events != null ? model.events.length : 0,
+              itemBuilder: (_, index) {
+                model.events.sort((Event a, Event b) => b.beginDate.compareTo(a.beginDate));
+                final item = model.events[index];
+                final pageVisibility = visibilityResolver.resolvePageVisibility(index);
+                return StoreConnector<AppState, VoidCallback>(
+                  converter: (store) => () => store.dispatch(SetCurrentEventAction(item)),
+                  builder: (BuildContext context, VoidCallback setCurrentEvent) {
+                    return EventPageItem(
+                      item: item,
+                      pageVisibility: pageVisibility,
+                      onTap: () {
+                        setCurrentEvent();
+                        Navigator.pushNamed(context, Routes.EVENT);
+                      }
+                    );
+                  }
+                );
+              }
+            );
+          }
+        );
   }
 
   @override
@@ -60,7 +60,9 @@ class EventList extends StatelessWidget {
           final eventState = store.state.eventState;
           if (isLoggedIn && eventState.events.isEmpty && !eventState.hasErrors) {
             store.dispatch(LoadEventsAction());
-            store.dispatch(GetCurrentUserAction());
+            GetCurrentUserAction action = GetCurrentUserAction();
+            store.dispatch(action);
+            action.completer.future.then((id) => store.dispatch(GetCurrentAttendeeAction(id)));
           } else if (!isLoggedIn) {
             Navigator.pushReplacementNamed(context, Routes.LOGIN);
           }
@@ -72,7 +74,12 @@ class EventList extends StatelessWidget {
           ? Scaffold(body: Center(child: LoadingSpinner()))
           : Scaffold(
               appBar: AppBar(
-                title: Text(_values == null ? LocalizationService.of(context).eventList['title'] : _values['title']),
+                title: Text(
+                  _values == null ? LocalizationService.of(context).eventList['title'] : _values['title'],
+                  style: TextStyle(
+                    fontFamily: 'Raleway'
+                  )
+                ),
                 actions: <Widget>[
                   IconButton(
                     icon: Icon(FontAwesomeIcons.signOutAlt),

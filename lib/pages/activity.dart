@@ -47,6 +47,7 @@ class _ActivityPageState extends State<ActivityPage> {
                 color: isAlreadyAttending ? Colors.red : Colors.green,
                 fontWeight: FontWeight.w700,
                 fontSize: 24.0,
+                fontFamily: 'Raleway'
               )
             )
           )
@@ -143,7 +144,8 @@ class _ActivityPageState extends State<ActivityPage> {
             style: TextStyle(
               fontSize: 30.0,
               fontWeight: FontWeight.w900,
-              color: Constants.polyhxGrey.withAlpha(144)
+              color: Constants.polyhxGrey.withAlpha(144),
+              fontFamily: 'Raleway'
             )
           )
         ]
@@ -165,7 +167,8 @@ class _ActivityPageState extends State<ActivityPage> {
               style: TextStyle(
                 color: Colors.white,
                 fontWeight: FontWeight.bold,
-                fontSize: 20.0
+                fontSize: 20.0,
+                fontFamily: 'Raleway'
               ),
             )
           )
@@ -184,7 +187,8 @@ class _ActivityPageState extends State<ActivityPage> {
             style: TextStyle(
               color: Constants.polyhxGrey.withAlpha(200),
               fontSize: 34.0,
-              fontWeight: FontWeight.w900
+              fontWeight: FontWeight.w900,
+              fontFamily: 'Raleway'
             )
           )
         ),
@@ -195,7 +199,8 @@ class _ActivityPageState extends State<ActivityPage> {
             style: TextStyle(
               color: Constants.polyhxGrey.withAlpha(200),
               fontSize: 34.0,
-              fontWeight: FontWeight.w900
+              fontWeight: FontWeight.w900,
+              fontFamily: 'Raleway'
             )
           )
         )
@@ -226,7 +231,10 @@ class _ActivityPageState extends State<ActivityPage> {
       builder: (BuildContext context, _ActivityPageViewModel model) {
         return Scaffold(
             appBar: AppBar(
-              title: Text(_activity.name)
+              title: Text(
+                _activity.name,
+                style: TextStyle(fontFamily: 'Raleway')
+              )
             ),
             body: model.isLoading ? LoadingSpinner() : _buildBody(model),
             resizeToAvoidBottomPadding: false

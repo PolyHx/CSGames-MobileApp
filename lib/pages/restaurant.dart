@@ -38,10 +38,7 @@ class RestaurantPage extends StatelessWidget {
           AppTitle(
             _values['guide'],
             MainAxisAlignment.spaceBetween,
-            Icon(
-              FontAwesomeIcons.utensils,
-              size: 45.0
-            )
+            FontAwesomeIcons.utensils
           ),
           _buildMap(context)
         ]

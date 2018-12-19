@@ -2,11 +2,18 @@ import 'package:flutter/material.dart';
 
 class TouchableImage extends StatelessWidget {
   final double widthFactor;
+  final double heightFactor;
   final EdgeInsetsGeometry padding;
   final String source;
   final Function onTap;
 
-  const TouchableImage(this.widthFactor, this.padding, this.source, this.onTap);
+  const TouchableImage(
+    this.widthFactor,
+    this.heightFactor,
+    this.padding,
+    this.source,
+    this.onTap
+  );
 
   @override
   Widget build(BuildContext context) {
@@ -14,9 +21,10 @@ class TouchableImage extends StatelessWidget {
       onTap: onTap,
       child: Padding(
         padding: this.padding,
-        child: Image.asset(
+        child: Image.network(
           this.source,
-          width: MediaQuery.of(context).size.width * this.widthFactor
+          width: MediaQuery.of(context).size.width * this.widthFactor,
+          height: MediaQuery.of(context).size.height * this.heightFactor
         )
       )
     );

@@ -16,46 +16,51 @@ class ActivityCard extends StatelessWidget {
     var beginHour = formatter.format(_activity.beginDate);
     var endHour = formatter.format(_activity.endDate);
     return Container(
-        margin: const EdgeInsets.fromLTRB(0.0, 5.0, 0.0, 5.0),
-        child: Material(
-            borderRadius: BorderRadius.circular(15.0),
-            elevation: 3.0,
-            child: Row(
+      margin: const EdgeInsets.fromLTRB(0.0, 5.0, 0.0, 5.0),
+      child: Material(
+        borderRadius: BorderRadius.circular(15.0),
+        elevation: 3.0,
+        child: Row(
+          children: <Widget>[
+            Padding(
+              padding: const EdgeInsets.all(20.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  Padding(
-                      padding: const EdgeInsets.all(20.0),
-                      child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: <Widget>[
-                            Text(_activity.name,
-                                style: TextStyle(
-                                    fontSize: 20.0
-                                ),
-                            ),
-                            Padding(
-                                padding: const EdgeInsets.fromLTRB(0.0, 3.0, 0.0, 0.0),
-                                child: Text("$beginHour - $endHour",
-                                    style: TextStyle(
-                                        fontSize: 15.0
-                                    ),
-                                ),
-                            ),
-                            Padding(
-                                padding: const EdgeInsets.fromLTRB(
-                                    0.0, 3.0, 0.0, 0.0),
-                                child: Text(_activity.location,
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.w100,
-                                        fontSize: 15.0
-                                    ),
-                                ),
-                            ),
-                          ],
-                      ),
+                  Text(
+                    _activity.name,
+                    style: TextStyle(
+                      fontSize: 20.0,
+                      fontFamily: 'Raleway'
+                    )
                   ),
-                ],
-            ),
-        ),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 3.0),
+                    child: Text(
+                      "$beginHour - $endHour",
+                      style: TextStyle(
+                        fontSize: 15.0,
+                        fontFamily: 'Raleway'
+                      )
+                    )
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 3.0),
+                    child: Text(
+                      _activity.location,
+                      style: TextStyle(
+                        fontWeight: FontWeight.w100,
+                        fontSize: 15.0,
+                        fontFamily: 'Raleway'
+                      )
+                    )
+                  )
+                ]
+              )
+            )
+          ]
+        )
+      )
     );
   }
 }

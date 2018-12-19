@@ -38,10 +38,7 @@ class ParkingPage extends StatelessWidget {
           AppTitle(
             _values['guide'],
             MainAxisAlignment.spaceBetween,
-            Icon(
-              FontAwesomeIcons.parking,
-              size: 45.0
-            )
+            FontAwesomeIcons.parking
           ),
           _buildMap(context)
         ]

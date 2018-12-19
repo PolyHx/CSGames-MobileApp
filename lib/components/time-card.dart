@@ -9,8 +9,8 @@ class TimeCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: MediaQuery.of(context).size.width * 0.925,
-      height: MediaQuery.of(context).size.height * 0.06,
-      margin: const EdgeInsets.fromLTRB(0.0, 5.0, 0.0, 5.0),
+      height: 45.0,
+      margin: EdgeInsets.fromLTRB(0.0, 5.0, 0.0, 5.0),
       child: Material(
         borderRadius: BorderRadius.circular(15.0),
         elevation: 0.3,
@@ -24,7 +24,8 @@ class TimeCard extends StatelessWidget {
                   Text(
                     time,
                     style: TextStyle(
-                      fontSize: 17.0
+                      fontSize: 17.0,
+                      fontFamily: 'Raleway'
                     )
                   )
                 ]

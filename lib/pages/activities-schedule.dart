@@ -1,8 +1,11 @@
 import 'package:PolyHxApp/components/time-card.dart';
+import 'package:PolyHxApp/components/title.dart';
+import 'package:PolyHxApp/pages/activity-description.dart';
 import 'package:PolyHxApp/redux/actions/activities-schedule-actions.dart';
 import 'package:PolyHxApp/redux/state.dart';
 import 'package:PolyHxApp/redux/states/activities-schedule-state.dart';
 import 'package:PolyHxApp/services/localization.service.dart';
+import 'package:PolyHxApp/utils/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_redux/flutter_redux.dart';
@@ -13,26 +16,28 @@ import 'package:PolyHxApp/pages/activity.dart';
 
 class ActivitiesSchedulePage extends StatefulWidget {
   final String _eventId;
+  final String _userRole;
 
-  ActivitiesSchedulePage(this._eventId);
+  ActivitiesSchedulePage(this._eventId, this._userRole);
 
   @override
-  State<StatefulWidget> createState() => _ActivitiesScheduleState(_eventId);
+  State<StatefulWidget> createState() => _ActivitiesScheduleState(_eventId, this._userRole);
 }
 
 class _ActivitiesScheduleState extends State<ActivitiesSchedulePage> with TickerProviderStateMixin {
   String _eventId;
+  String _userRole;
   TabController _tabController;
   Map<String, Map<String, List<Activity>>> _activities;
   int currentTabIndex = 0;
 
-  _ActivitiesScheduleState(this._eventId);
+  _ActivitiesScheduleState(this._eventId, this._userRole);
 
   void _showActivity(Activity activity) {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (_) => ActivityPage(activity),
+        builder: (_) => _userRole == 'admin' || _userRole == 'volunteer' ? ActivityPage(activity) : ActivityDescriptionPage(activity, LocalizationService.of(context).activity),
         fullscreenDialog: true
       )
     );
@@ -58,13 +63,31 @@ class _ActivitiesScheduleState extends State<ActivitiesSchedulePage> with Ticker
       );
       _tabController.addListener(_handleTabSelection);
     }
-    if (_tabController == null) return Container();
+    if (_tabController == null) return Column(children: <Widget>[AppTitle(LocalizationService.of(context).schedule['title'], MainAxisAlignment.start)]);
     return Column(
       children: <Widget>[
-        TabBar(
-          labelColor: Colors.black,
-          controller: _tabController,
-          tabs: _buildTabs()
+        AppTitle(LocalizationService.of(context).schedule['title'], MainAxisAlignment.start),
+        Container(
+          width: MediaQuery.of(context).size.width * 0.925,
+          margin: EdgeInsets.only(bottom: 5.0),
+          child: Material(
+            borderRadius: BorderRadius.circular(15.0),
+            elevation: 0.3,
+            child: TabBar(
+              indicator: BoxDecoration(
+                color: Constants.polyhxRed,
+                borderRadius: BorderRadius.circular(15.0)
+              ),
+              labelStyle: TextStyle(
+                fontFamily: 'Raleway',
+                fontSize: MediaQuery.of(context).size.width * 0.04,
+              ),
+              unselectedLabelColor: Colors.black,
+              labelColor: Colors.white,
+              controller: _tabController,
+              tabs: _buildTabs()
+            )
+          )
         ),
         Flexible(
           child: TabBarView(

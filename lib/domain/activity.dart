@@ -5,6 +5,7 @@ class Activity {
   DateTime endDate;
   String location;
   List<String> attendees;
+  Map<String, dynamic> description;
 
   Activity({
     this.id,
@@ -12,7 +13,8 @@ class Activity {
     this.beginDate,
     this.endDate,
     this.location,
-    this.attendees
+    this.attendees,
+    this.description
   });
 
   Activity.fromMap(Map<String, dynamic> map) {
@@ -22,5 +24,6 @@ class Activity {
     endDate = DateTime.parse(map['endDate']);
     location = map['location'];
     attendees = List.castFrom<dynamic, String>(map['attendees']);
+    description = Map.castFrom<String, dynamic, String, String>(map['description']);
   }
 }

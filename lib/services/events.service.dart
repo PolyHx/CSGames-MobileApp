@@ -57,6 +57,31 @@ class EventsService {
     }
   }
 
+  Future<bool> addSubscriptionToActivity(String attendeeId, String activityId) async {
+    try {
+      final headers = {'Authorization': 'Bearer ${_tokenService.accessToken}'};
+      final response = await _http.put('${Environment.eventManagementUrl}/activity/$activityId/subscription/$attendeeId/add',
+        headers: headers);
+      return response.statusCode == 200;
+    } catch(err) {
+      print('AttendeesService.addSubscriptionToActivity(): $err');
+      return false;
+    }
+  }
+
+  Future<bool> verifyAttendeeSubscription(String attendeeId, String activityId) async {
+    try {
+      final headers = {'Authorization': 'Bearer ${_tokenService.accessToken}'};
+      final response = await _http.get('${Environment.eventManagementUrl}/activity/$activityId/subscription/$attendeeId/check',
+        headers: headers);
+      final responseMap = json.decode(response.body);
+      return responseMap['isSubscribed'] ?? false;
+    } catch(err) {
+      print('AttendeesService.addSubscriptionToActivity(): $err');
+      return false;
+    }
+  }
+
   Future<User> doRaffle(String activityId) async {
     final response = await _http.get('${Environment.eventManagementUrl}/activity/$activityId/raffle',
                                      headers: {'Authorization': 'Bearer ${_tokenService.accessToken}'});
@@ -73,6 +98,18 @@ class EventsService {
     }
     catch (e) {
       print('AttendeesService.addAttendeeToActivity(): $e');
+      return false;
+    }
+  }
+
+  Future<bool> addScannedAttendee(String attendeeId, String scannedAttendeeId, String eventId) async {
+    try {
+      final headers = {"Authorization": "Bearer ${_tokenService.accessToken}"};
+      final body = {'scannedAttendee': scannedAttendeeId};
+      final response = await _http.put('${Environment.eventManagementUrl}/event/$eventId/$attendeeId/scan', body: body, headers: headers);
+      return response.statusCode == 200;
+    } catch (err) {
+      print('AttendeesService.addScannedAttendee(): $err');
       return false;
     }
   }

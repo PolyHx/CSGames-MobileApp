@@ -75,10 +75,7 @@ class BringPage extends StatelessWidget {
           AppTitle(
             _values['guide'],
             MainAxisAlignment.spaceBetween,
-            Icon(
-              FontAwesomeIcons.clipboardCheck,
-              size: 45.0
-            )
+            FontAwesomeIcons.clipboardCheck
           ),
           _buildCard(context)
         ]

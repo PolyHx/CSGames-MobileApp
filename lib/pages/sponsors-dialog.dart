@@ -1,42 +1,51 @@
 import 'package:PolyHxApp/components/pill-button.dart';
+import 'package:PolyHxApp/domain/sponsors.dart';
+import 'package:PolyHxApp/services/localization.service.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class SponsorsDialog extends StatelessWidget {
-  final Map<String, String> _values;
-  final String website;
+  final Sponsors _sponsors;
 
-  SponsorsDialog(this._values, this.website);
+  SponsorsDialog(this._sponsors);
 
   Widget _buildLogo(BuildContext context) {
     return Padding(
       padding: EdgeInsets.only(top: 10.0),
-      child: Image.asset(
-        'assets/logo.png',
-        width: MediaQuery.of(context).size.width * 0.4,
+      child: Image.network(
+        _sponsors.imageUrl,
+        width: MediaQuery.of(context).size.width * 0.6,
+        height: MediaQuery.of(context).size.height * 0.1
       )
     );
   }
 
-  Widget _buildText() {
-    return Padding(
-      padding: EdgeInsets.fromLTRB(10.0, 5.0, 10.0, 10.0),
-      child: Text(
-        _values['text'],
-        textAlign: TextAlign.justify,
-        style: TextStyle(
-          fontFamily: 'Raleway',
-          fontSize: 18.0
-        )
+  Widget _buildText(BuildContext context) {
+    return Container(
+      height: MediaQuery.of(context).size.height * 0.43,
+      child: ListView(
+        shrinkWrap: true,
+        padding: EdgeInsets.fromLTRB(25.0, 5.0, 25.0, 10.0),
+        children: <Widget>[
+          Text(
+            _sponsors.description[ LocalizationService.of(context).language],
+            textAlign: TextAlign.justify,
+            style: TextStyle(
+              fontFamily: 'Raleway',
+              fontSize: 18.0,
+              height: 1.15
+            )
+          )
+        ]
       )
     );
   }
 
   Widget _buildHyperlink() {
     return Padding(
-      padding: EdgeInsets.only(bottom: 15.0),
+      padding: EdgeInsets.fromLTRB(0.0, 15.0, 0.0, 15.0),
       child: InkWell(
-        onTap: () => launch(this.website),
+        onTap: () => launch(_sponsors.website),
         child: Text(
           'polyhx.io',
           style: TextStyle(
@@ -56,7 +65,7 @@ class SponsorsDialog extends StatelessWidget {
       child: Padding(
         padding: EdgeInsets.fromLTRB(25.0, 12.5, 25.0, 12.5),
         child: Text(
-          _values['done'],
+          LocalizationService.of(context).sponsors['done'],
           style: TextStyle(
             color: Colors.white,
             fontWeight: FontWeight.bold,
@@ -73,29 +82,26 @@ class SponsorsDialog extends StatelessWidget {
       children: <Widget>[
         Padding(
           padding: EdgeInsets.only(top: 40.0),
-          child: Opacity(
-            opacity: 0.85,
-            child: Material(
-              elevation: 1.0,
-              borderRadius: BorderRadius.circular(10.0),
-              child: Column(
-                children: <Widget>[
-                  Container(
-                    child: Padding(
-                      padding: EdgeInsets.symmetric(vertical: 10.0),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: <Widget>[
-                          _buildLogo(context),
-                          _buildText(),
-                          _buildHyperlink(),
-                          _buildButton(context)
-                        ]
-                      )
+          child: Material(
+            elevation: 1.0,
+            borderRadius: BorderRadius.circular(10.0),
+            child: Column(
+              children: <Widget>[
+                Container(
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(vertical: 10.0),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: <Widget>[
+                        _buildLogo(context),
+                        _buildText(context),
+                        _buildHyperlink(),
+                        _buildButton(context)
+                      ]
                     )
                   )
-                ]
-              )
+                )
+              ]
             )
           )
         )
@@ -108,8 +114,8 @@ class SponsorsDialog extends StatelessWidget {
   Widget build(BuildContext context) {
     return Center(
       child: Container(
-        width: MediaQuery.of(context).size.width * 0.8,
-        height: MediaQuery.of(context).size.height * 0.7,
+        width: MediaQuery.of(context).size.width * 0.9,
+        height: MediaQuery.of(context).size.height * 0.8,
         child: _buildBody(context)
       )
     );

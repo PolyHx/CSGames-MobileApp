@@ -42,46 +42,7 @@ class EventsService {
         .then((r) => json.decode(r.body));
     return List.castFrom<dynamic, Activity>(res.map((a) => Activity.fromMap(a)).toList());
   }
-
-  Future<Activity> addAttendeeToActivity(String attendeeId, String activityId) async {
-    try {
-      final headers = {'Authorization': 'Bearer ${_tokenService.accessToken}'};
-      final response = await _http.put('${Environment.eventManagementUrl}/activity/$activityId/$attendeeId/add',
-          headers: headers);
-      final responseMap = json.decode(response.body);
-      return Activity.fromMap(responseMap);
-    }
-    catch (e) {
-      print('AttendeesService.addAttendeeToActivity(): $e');
-      return null;
-    }
-  }
-
-  Future<bool> addSubscriptionToActivity(String attendeeId, String activityId) async {
-    try {
-      final headers = {'Authorization': 'Bearer ${_tokenService.accessToken}'};
-      final response = await _http.put('${Environment.eventManagementUrl}/activity/$activityId/subscription/$attendeeId/add',
-        headers: headers);
-      return response.statusCode == 200;
-    } catch(err) {
-      print('AttendeesService.addSubscriptionToActivity(): $err');
-      return false;
-    }
-  }
-
-  Future<bool> verifyAttendeeSubscription(String attendeeId, String activityId) async {
-    try {
-      final headers = {'Authorization': 'Bearer ${_tokenService.accessToken}'};
-      final response = await _http.get('${Environment.eventManagementUrl}/activity/$activityId/subscription/$attendeeId/check',
-        headers: headers);
-      final responseMap = json.decode(response.body);
-      return responseMap['isSubscribed'] ?? false;
-    } catch(err) {
-      print('AttendeesService.addSubscriptionToActivity(): $err');
-      return false;
-    }
-  }
-
+  
   Future<User> doRaffle(String activityId) async {
     final response = await _http.get('${Environment.eventManagementUrl}/activity/$activityId/raffle',
                                      headers: {'Authorization': 'Bearer ${_tokenService.accessToken}'});

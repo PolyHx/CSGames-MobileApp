@@ -1,13 +1,13 @@
 import 'package:PolyHxApp/redux/actions/activity-description-actions.dart';
 import 'package:PolyHxApp/redux/state.dart';
-import 'package:PolyHxApp/services/events.service.dart';
+import 'package:PolyHxApp/services/activities.service.dart';
 import 'package:redux_epics/redux_epics.dart';
 import 'package:rxdart/rxdart.dart';
 
 class ActivityDescriptionMiddleware extends EpicClass<AppState> {
-  final EventsService _eventService;
+  final ActivitiesService _activitiesService;
 
-  ActivityDescriptionMiddleware(this._eventService);
+  ActivityDescriptionMiddleware(this._activitiesService);
 
   @override
   Stream call(Stream actions, EpicStore<AppState> store) {
@@ -27,7 +27,7 @@ class ActivityDescriptionMiddleware extends EpicClass<AppState> {
       return;
     }
 
-    yield SubscribedAction(await this._eventService.addSubscriptionToActivity(attendeeId, activityId));
+    yield SubscribedAction(await _activitiesService.addSubscriptionToActivity(attendeeId, activityId));
     return;
   }
 
@@ -37,7 +37,7 @@ class ActivityDescriptionMiddleware extends EpicClass<AppState> {
       return;
     }
 
-    yield SubscribedAction(await this._eventService.verifyAttendeeSubscription(attendeeId, activityId));
+    yield SubscribedAction(await _activitiesService.verifyAttendeeSubscription(attendeeId, activityId));
     return;
   }
 }

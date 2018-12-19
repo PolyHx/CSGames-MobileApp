@@ -8,9 +8,9 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:254982200861:android:7ce4afd9bb91a63a",
+        "mobilesdk_app_id": "1:254982200861:android:a2c75f566f790bff",
         "android_client_info": {
-          "package_name": "ca.polyhx.app"
+          "package_name": "io.polyhx.mobileapp"
         }
       },
       "oauth_client": [

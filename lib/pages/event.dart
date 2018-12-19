@@ -6,6 +6,7 @@ import 'package:PolyHxApp/pages/sponsors-page.dart';
 import 'package:PolyHxApp/redux/actions/activities-schedule-actions.dart';
 import 'package:PolyHxApp/redux/actions/attendee-retrieval-actions.dart';
 import 'package:PolyHxApp/redux/actions/sponsors-actions.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_redux/flutter_redux.dart';
@@ -30,6 +31,24 @@ enum AdminEventTabs { Info, Sponsors, Scan, Activities, Profile }
 
 class _EventPageState extends State<EventPage> {
   int _currentTabIndex = 0;
+  final _firebaseMessaging = FirebaseMessaging();
+  
+  @override
+  void initState() {
+    super.initState();
+    _firebaseMessaging.configure(
+      onMessage: (Map<String, dynamic> message) async {
+        print('on message $message');
+      },
+      onResume: (Map<String, dynamic> message) async {
+        print('on resume $message');
+      },
+      onLaunch: (Map<String, dynamic> message) async {
+        print('on launch $message');
+      },
+    );
+  }
+
 
   Widget _buildBody(_EventPageViewModel model) {
     Widget body;

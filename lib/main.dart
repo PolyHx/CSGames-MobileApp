@@ -16,6 +16,7 @@ import 'package:PolyHxApp/redux/states/login-state.dart';
 import 'package:PolyHxApp/redux/states/notification-state.dart';
 import 'package:PolyHxApp/redux/states/profile-state.dart';
 import 'package:PolyHxApp/redux/states/sponsors-state.dart';
+import 'package:PolyHxApp/services/activities.service.dart';
 import 'package:PolyHxApp/services/notification.service.dart';
 import 'package:PolyHxApp/services/schedule.service.dart';
 import 'package:PolyHxApp/services/sponsors.service.dart';
@@ -53,9 +54,8 @@ void main() {
   final eventsService = EventsService(client, tokenService);
   final sponsorsService = SponsorsService(client, tokenService);
   final attendeesService = AttendeesService(client, tokenService);
+  final activitiesService = ActivitiesService(client, tokenService);
   final notificationService = NotificationService(client,tokenService);
-  final _firebaseMessaging = FirebaseMessaging();
-  _firebaseMessaging.requestNotificationPermissions();
   final store = Store<AppState>(
     appReducer,
     initialState: AppState(
@@ -74,10 +74,10 @@ void main() {
       EpicMiddleware<AppState>(LoginMiddleware(authService)),
       EpicMiddleware<AppState>(SponsorsMiddleware(sponsorsService)),
       EpicMiddleware<AppState>(EventMiddleware(eventsService, tokenService)),
-      EpicMiddleware<AppState>(ActivityDescriptionMiddleware(eventsService)),
+      EpicMiddleware<AppState>(ActivityDescriptionMiddleware(activitiesService)),
       EpicMiddleware<AppState>(ActivitiesScheduleMiddleware(eventsService, scheduleService)),
-      EpicMiddleware<AppState>(ActivityMiddleware(eventsService, nfcService, attendeesService, usersService)),
       EpicMiddleware<AppState>(ProfileMiddleware(tokenService, qrCodeReader, attendeesService, eventsService)),
+      EpicMiddleware<AppState>(ActivityMiddleware(eventsService, nfcService, attendeesService, usersService, activitiesService)),
       EpicMiddleware<AppState>(AttendeeRetrievalMiddleware(nfcService, attendeesService, eventsService, usersService, qrCodeReader))
     ]
   );

@@ -15,3 +15,18 @@ class NotificationsLoadedAction {
 class NotificationsNotLoadedAction {}
 
 class ResetNotificationsAction {}
+
+class SendSms {
+  final String eventId;
+  final String message;
+
+  SendSms(this.eventId, this.message);
+}
+
+class SmsNotSentAction {}
+
+class SmsSentAction {}
+
+class SetupNotificationAction {}
+
+class RemoveRegistrationToken {}

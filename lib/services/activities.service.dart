@@ -14,7 +14,7 @@ class ActivitiesService {
   Future<bool> addSubscriptionToActivity(String attendeeId, String activityId) async {
     try {
       final headers = {'Authorization': 'Bearer ${_tokenService.accessToken}'};
-      final response = await _http.put('${Environment.eventManagementUrl}/activity/$activityId/subscription/$attendeeId',
+      final response = await _http.put('${Environment.eventManagementUrl}/activity/$activityId/$attendeeId/subscription',
         headers: headers);
       return response.statusCode == 200;
     } catch(err) {
@@ -26,10 +26,9 @@ class ActivitiesService {
   Future<bool> verifyAttendeeSubscription(String attendeeId, String activityId) async {
     try {
       final headers = {'Authorization': 'Bearer ${_tokenService.accessToken}'};
-      final response = await _http.get('${Environment.eventManagementUrl}/activity/$activityId/subscription/$attendeeId',
+      final response = await _http.get('${Environment.eventManagementUrl}/activity/$activityId/$attendeeId/subscription',
         headers: headers);
-      final responseMap = json.decode(response.body);
-      return responseMap['isSubscribed'] ?? false;
+      return response.statusCode == 200;
     } catch(err) {
       print('AttendeesService.addSubscriptionToActivity(): $err');
       return false;

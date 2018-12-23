@@ -5,8 +5,8 @@ import 'package:PolyHxApp/pages/profile.dart';
 import 'package:PolyHxApp/pages/sponsors-page.dart';
 import 'package:PolyHxApp/redux/actions/activities-schedule-actions.dart';
 import 'package:PolyHxApp/redux/actions/attendee-retrieval-actions.dart';
+import 'package:PolyHxApp/redux/actions/notification-actions.dart';
 import 'package:PolyHxApp/redux/actions/sponsors-actions.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_redux/flutter_redux.dart';
@@ -27,28 +27,11 @@ class EventPage extends StatefulWidget {
 }
 
 enum EventTabs { Info, Sponsors, Scan, Activities, Profile }
-enum AdminEventTabs { Info, Sponsors, Scan, Activities, Profile }
+enum VolunteerTabs { Info, Sponsors, Scan, Activities, Profile }
+enum AdminEventTabs { Notification, Sponsors, Scan, Activities, Profile }
 
 class _EventPageState extends State<EventPage> {
   int _currentTabIndex = 0;
-  final _firebaseMessaging = FirebaseMessaging();
-  
-  @override
-  void initState() {
-    super.initState();
-    _firebaseMessaging.configure(
-      onMessage: (Map<String, dynamic> message) async {
-        print('on message $message');
-      },
-      onResume: (Map<String, dynamic> message) async {
-        print('on resume $message');
-      },
-      onLaunch: (Map<String, dynamic> message) async {
-        print('on launch $message');
-      },
-    );
-  }
-
 
   Widget _buildBody(_EventPageViewModel model) {
     Widget body;
@@ -74,13 +57,37 @@ class _EventPageState extends State<EventPage> {
     return body;
   }
 
+  Widget _buildBodyVolunteer(_EventPageViewModel model) {
+    Widget body;
+    switch (VolunteerTabs.values[_currentTabIndex]) {
+      case VolunteerTabs.Scan:
+        body = AttendeeRetrievalPage(model.event);
+        break;
+      case VolunteerTabs.Info:
+        body = EventInfoPage();
+        break;
+      case VolunteerTabs.Activities:
+        body = ActivitiesSchedulePage(model.event.id, model.user.role);
+        break;
+      case VolunteerTabs.Profile:
+        body = ProfilePage();
+        break;
+      case VolunteerTabs.Sponsors:
+        body = SponsorsPage();
+        break;
+      default:
+        break;
+    }
+    return body;
+  }
+
   Widget _buildBodyAdmin(_EventPageViewModel model) {
     Widget body;
     switch (AdminEventTabs.values[_currentTabIndex]) {
       case AdminEventTabs.Scan:
         body = AttendeeRetrievalPage(model.event);
         break;
-      case AdminEventTabs.Info:
+      case AdminEventTabs.Notification:
         body = EventInfoPage();
         break;
       case AdminEventTabs.Activities:
@@ -102,6 +109,7 @@ class _EventPageState extends State<EventPage> {
     model.resetAttendeeRetrieval();
     model.resetSchedule();
     model.resetSponsors();
+    model.removeFcmToken();
     return true;
   }
 
@@ -229,11 +237,23 @@ class _EventPageState extends State<EventPage> {
     return StoreConnector<AppState, _EventPageViewModel>(
       converter: (store) => _EventPageViewModel.fromStore(store),
       builder: (BuildContext context, _EventPageViewModel model) {
+        Widget body;
+        switch (model.user.role) {
+          case 'admin':
+            body = _buildBodyAdmin(model);
+            break;
+          case 'volunteer':
+            body = _buildBodyVolunteer(model);
+            break;
+          default:
+            body = _buildBody(model);
+            break;
+        }
         return WillPopScope(
           onWillPop: () => _reset(model),
           child: Scaffold(
             appBar: _buildAppBar(context, model),
-            body: model.user.role == 'admin' || model.user.role == 'volunteer' ? _buildBodyAdmin(model) : _buildBody(model),
+            body: body,
             resizeToAvoidBottomPadding: false,
             floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
             floatingActionButton: _buildActionButton(model),
@@ -251,13 +271,15 @@ class _EventPageViewModel {
   Function resetSchedule;
   Function resetAttendeeRetrieval;
   Function resetSponsors;
+  Function removeFcmToken;
 
   _EventPageViewModel(
     this.event,
     this.user,
     this.resetSchedule,
     this.resetAttendeeRetrieval,
-    this.resetSponsors
+    this.resetSponsors,
+    this.removeFcmToken
   );
 
   _EventPageViewModel.fromStore(Store<AppState> store) {
@@ -266,5 +288,6 @@ class _EventPageViewModel {
     resetSchedule = () => store.dispatch(ResetScheduleAction());
     resetAttendeeRetrieval = () => store.dispatch(ResetAttendeeAction());
     resetSponsors = () => store.dispatch(ResetSponsorsAction());
+    removeFcmToken = () => store.dispatch(RemoveRegistrationToken());
   }
 }

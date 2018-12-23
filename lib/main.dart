@@ -20,11 +20,11 @@ import 'package:PolyHxApp/services/activities.service.dart';
 import 'package:PolyHxApp/services/notification.service.dart';
 import 'package:PolyHxApp/services/schedule.service.dart';
 import 'package:PolyHxApp/services/sponsors.service.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:http/http.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:qr_reader/qr_reader.dart';
 import 'package:redux/redux.dart';
 import 'package:PolyHxApp/pages/event.dart';
@@ -49,6 +49,7 @@ void main() {
   final qrCodeReader = QRCodeReader();
   final scheduleService = ScheduleService();
   final tokenService = TokenService(client);
+  final firebaseMessaging = FirebaseMessaging();
   final authService = AuthService(client, tokenService);
   final usersService = UsersService(client, tokenService);
   final eventsService = EventsService(client, tokenService);
@@ -70,13 +71,13 @@ void main() {
       activityDescriptionState: ActivityDescriptionState.initial()
     ),
     middleware: [
-      EpicMiddleware<AppState>(NotificationMiddleware(notificationService)),
       EpicMiddleware<AppState>(LoginMiddleware(authService)),
       EpicMiddleware<AppState>(SponsorsMiddleware(sponsorsService)),
       EpicMiddleware<AppState>(EventMiddleware(eventsService, tokenService)),
       EpicMiddleware<AppState>(ActivityDescriptionMiddleware(activitiesService)),
       EpicMiddleware<AppState>(ActivitiesScheduleMiddleware(eventsService, scheduleService)),
       EpicMiddleware<AppState>(ProfileMiddleware(tokenService, qrCodeReader, attendeesService, eventsService)),
+      EpicMiddleware<AppState>(NotificationMiddleware(notificationService, firebaseMessaging, attendeesService)),
       EpicMiddleware<AppState>(ActivityMiddleware(eventsService, nfcService, attendeesService, usersService, activitiesService)),
       EpicMiddleware<AppState>(AttendeeRetrievalMiddleware(nfcService, attendeesService, eventsService, usersService, qrCodeReader))
     ]

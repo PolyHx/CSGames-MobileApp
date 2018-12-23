@@ -1,5 +1,6 @@
 import 'package:PolyHxApp/redux/actions/attendee-retrieval-actions.dart';
 import 'package:PolyHxApp/redux/actions/login-actions.dart';
+import 'package:PolyHxApp/redux/actions/notification-actions.dart';
 import 'package:PolyHxApp/redux/actions/profile-actions.dart';
 import 'package:PolyHxApp/services/localization.service.dart';
 import 'package:flutter/material.dart';
@@ -16,11 +17,9 @@ import 'package:PolyHxApp/utils/routes.dart';
 import 'package:redux/redux.dart';
 
 class EventList extends StatelessWidget {
-  Map<String, dynamic> _values;
-
-  Widget _buildEventCards(_EventListPageViewModel model) {
+  Widget _buildEventCards(_EventListPageViewModel model, BuildContext context) {
     return model.hasErrors
-      ? Text(_values['error'])
+      ? Text(LocalizationService.of(context).eventList['error'])
       : PageTransformer(
           pageViewBuilder: (_, visibilityResolver) {
             return PageView.builder(
@@ -53,7 +52,7 @@ class EventList extends StatelessWidget {
   Widget build(BuildContext context) {
     return StoreConnector<AppState, _EventListPageViewModel>(
       onInit: (store) async {
-        _values = LocalizationService.of(context).eventList;
+        store.dispatch(SetupNotificationAction());
         IsLoggedInAction action = IsLoggedInAction();
         store.dispatch(action);
         action.completer.future.then((isLoggedIn) {
@@ -75,7 +74,7 @@ class EventList extends StatelessWidget {
           : Scaffold(
               appBar: AppBar(
                 title: Text(
-                  _values == null ? LocalizationService.of(context).eventList['title'] : _values['title'],
+                  LocalizationService.of(context).eventList['title'],
                   style: TextStyle(
                     fontFamily: 'Raleway'
                   )
@@ -93,7 +92,7 @@ class EventList extends StatelessWidget {
               ),
               body: Center(
                 child: SizedBox.fromSize(
-                  child: _buildEventCards(model)
+                  child: _buildEventCards(model, context)
                 )
               )
             );

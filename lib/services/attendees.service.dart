@@ -51,4 +51,20 @@ class AttendeesService {
       return false;
     }
   }
+
+  Future<bool> setFcmToken(String token) async {
+    final headers = {"Authorization": "Bearer ${_tokenService.accessToken}"};
+    final body = {'token': token};
+    final response = await _http.put('${Environment.eventManagementUrl}/attendee/token',
+      headers: headers,
+      body: body);
+    return response.statusCode == 200;
+  }
+
+  Future<bool> removeFcmToken(String token) async {
+    final headers = {"Authorization": "Bearer ${_tokenService.accessToken}"};
+    final response = await _http.delete('${Environment.eventManagementUrl}/attendee/token/$token',
+      headers: headers);
+    return response.statusCode == 200;
+  }
 }

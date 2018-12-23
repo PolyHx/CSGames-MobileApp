@@ -6,12 +6,15 @@ class NotificationState {
   final List<AppNotification> notifications;
   final bool isLoading;
   final bool hasErrors;
+  final bool smsSent;
 
-  NotificationState({this.notifications, this.isLoading, this.hasErrors});
+  NotificationState({this.notifications, this.isLoading, this.hasErrors, this.smsSent});
 
-  factory NotificationState.initial() => NotificationState(notifications: [], isLoading: false, hasErrors: false);
+  factory NotificationState.initial() => NotificationState(notifications: [], isLoading: false, hasErrors: false, smsSent: false);
 
-  factory NotificationState.loading() => NotificationState(notifications: [], isLoading: true, hasErrors: false);
+  factory NotificationState.loading() => NotificationState(notifications: [], isLoading: true, hasErrors: false, smsSent: false);
 
-  factory NotificationState.error() => NotificationState(notifications: [], isLoading: false, hasErrors: true);
+  factory NotificationState.error() => NotificationState(notifications: [], isLoading: false, hasErrors: true, smsSent: false);
+
+  factory NotificationState.sent() => NotificationState(notifications: [], isLoading: false, hasErrors: false, smsSent: true);
 }

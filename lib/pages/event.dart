@@ -5,7 +5,6 @@ import 'package:PolyHxApp/pages/profile.dart';
 import 'package:PolyHxApp/pages/sponsors-page.dart';
 import 'package:PolyHxApp/redux/actions/activities-schedule-actions.dart';
 import 'package:PolyHxApp/redux/actions/attendee-retrieval-actions.dart';
-import 'package:PolyHxApp/redux/actions/notification-actions.dart';
 import 'package:PolyHxApp/redux/actions/sponsors-actions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -109,7 +108,6 @@ class _EventPageState extends State<EventPage> {
     model.resetAttendeeRetrieval();
     model.resetSchedule();
     model.resetSponsors();
-    model.removeFcmToken();
     return true;
   }
 
@@ -271,7 +269,6 @@ class _EventPageViewModel {
   Function resetSchedule;
   Function resetAttendeeRetrieval;
   Function resetSponsors;
-  Function removeFcmToken;
 
   _EventPageViewModel(
     this.event,
@@ -279,7 +276,6 @@ class _EventPageViewModel {
     this.resetSchedule,
     this.resetAttendeeRetrieval,
     this.resetSponsors,
-    this.removeFcmToken
   );
 
   _EventPageViewModel.fromStore(Store<AppState> store) {
@@ -288,6 +284,5 @@ class _EventPageViewModel {
     resetSchedule = () => store.dispatch(ResetScheduleAction());
     resetAttendeeRetrieval = () => store.dispatch(ResetAttendeeAction());
     resetSponsors = () => store.dispatch(ResetSponsorsAction());
-    removeFcmToken = () => store.dispatch(RemoveRegistrationToken());
   }
 }

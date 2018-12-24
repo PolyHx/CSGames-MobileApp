@@ -1,6 +1,7 @@
 import 'package:PolyHxApp/domain/user.dart';
 import 'package:PolyHxApp/pages/info.dart';
 import 'package:PolyHxApp/pages/notification-list.dart';
+import 'package:PolyHxApp/pages/notification.dart';
 import 'package:PolyHxApp/pages/profile.dart';
 import 'package:PolyHxApp/pages/sponsors-page.dart';
 import 'package:PolyHxApp/redux/actions/activities-schedule-actions.dart';
@@ -87,7 +88,7 @@ class _EventPageState extends State<EventPage> {
         body = AttendeeRetrievalPage(model.event);
         break;
       case AdminEventTabs.Notification:
-        body = EventInfoPage();
+        body = NotificationPage();
         break;
       case AdminEventTabs.Activities:
         body = ActivitiesSchedulePage(model.event.id, model.user.role);

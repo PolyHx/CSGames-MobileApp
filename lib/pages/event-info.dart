@@ -1,9 +1,7 @@
 import 'package:PolyHxApp/components/title.dart';
 import 'package:PolyHxApp/domain/event.dart';
 import 'package:PolyHxApp/pages/bring.dart';
-import 'package:PolyHxApp/pages/hotel.dart';
 import 'package:PolyHxApp/pages/parking.dart';
-import 'package:PolyHxApp/pages/restaurant.dart';
 import 'package:PolyHxApp/redux/state.dart';
 import 'package:PolyHxApp/services/localization.service.dart';
 import 'package:PolyHxApp/utils/constants.dart';
@@ -21,13 +19,8 @@ class Tile {
 }
 
 class EventInfoPage extends StatelessWidget {
-  Map<String, dynamic> _values;
   final double _widthFactor = 0.41;
   final double _heightFactor = 0.39;
-
-  String _getTranslation(BuildContext context, String element) {
-    return _values == null ? LocalizationService.of(context).eventInfo[element] : _values[element];
-  }
 
   void _showTileInfo(BuildContext context, String id) {
     var widget;
@@ -36,13 +29,7 @@ class EventInfoPage extends StatelessWidget {
         widget = BringPage(LocalizationService.of(context).bring);
         break;
       case '2':
-        widget = ParkingPage(LocalizationService.of(context).parking);
-        break;
-      case '3':
-        widget = RestaurantPage(LocalizationService.of(context).restaurant);
-        break;
-      case '4':
-        widget = HotelPage(LocalizationService.of(context).hotel);
+        widget = ParkingState();
         break;
     }
     Navigator.push(
@@ -108,23 +95,13 @@ class EventInfoPage extends StatelessWidget {
         children: [
           Tile(
             FontAwesomeIcons.clipboardCheck,
-            _getTranslation(context, 'bring'),
+            LocalizationService.of(context).eventInfo['bring'],
             '1'
           ),
           Tile(
             FontAwesomeIcons.parking,
-            _getTranslation(context, 'parking'),
+            LocalizationService.of(context).eventInfo['parking'],
             '2'
-          ),
-          Tile(
-            FontAwesomeIcons.utensils,
-            _getTranslation(context, 'restaurant'),
-            '3'
-          ),
-          Tile(
-            Icons.hotel,
-            _getTranslation(context, 'hotel'),
-            '4'
           )
         ].map((Tile tile) => _buildTile(context, tile)).toList()
       )
@@ -134,14 +111,13 @@ class EventInfoPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return StoreConnector<AppState, Event>(
-      onInit: (_) => _values = LocalizationService.of(context).eventInfo,
       converter: (store) => store.state.currentEvent,
       builder: (BuildContext context, Event event) {
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             AppTitle(
-              _getTranslation(context, 'title'),
+              LocalizationService.of(context).eventInfo['title'],
               MainAxisAlignment.spaceBetween,
               FontAwesomeIcons.thLarge
             ),

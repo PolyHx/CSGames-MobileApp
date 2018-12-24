@@ -65,7 +65,7 @@ Map<String, dynamic> fr = {
   },
   'parking': {
     'guide': 'GUIDE',
-    'title': 'Sationnement'
+    'title': 'Stationnement'
   },
   'restaurant': {
     'guide': 'GUIDE',

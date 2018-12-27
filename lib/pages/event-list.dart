@@ -17,6 +17,8 @@ import 'package:PolyHxApp/utils/routes.dart';
 import 'package:redux/redux.dart';
 
 class EventList extends StatelessWidget {
+  bool _eventsChecked = false;
+
   Widget _buildEventCards(_EventListPageViewModel model, BuildContext context) {
     return model.hasErrors
       ? Text(LocalizationService.of(context).eventList['error'])
@@ -54,13 +56,14 @@ class EventList extends StatelessWidget {
   Widget build(BuildContext context) {
     return StoreConnector<AppState, _EventListPageViewModel>(
       onInit: (store) async {
-        store.dispatch(SetupNotificationAction());
         IsLoggedInAction action = IsLoggedInAction();
         store.dispatch(action);
         action.completer.future.then((isLoggedIn) {
           final eventState = store.state.eventState;
           if (isLoggedIn && eventState.events.isEmpty && !eventState.hasErrors) {
+            store.dispatch(SetupNotificationAction());
             store.dispatch(LoadEventsAction());
+
             GetCurrentUserAction action = GetCurrentUserAction();
             store.dispatch(action);
             action.completer.future.then((id) => store.dispatch(GetCurrentAttendeeAction(id)));
@@ -98,6 +101,19 @@ class EventList extends StatelessWidget {
                 )
               )
             );
+      },
+      onDidChange: (_EventListPageViewModel model) {
+        if (model.events.isNotEmpty && !model.hasErrors && !model.isLoading && !_eventsChecked) {
+          _eventsChecked = true;
+          DateTime now = DateTime.now();
+          for (Event event in model.events) {
+            if (event.beginDate.isBefore(now) && event.endDate.isAfter(now)) {
+              model.setCurrentEvent(event);
+              Navigator.pushNamed(context, Routes.EVENT);
+              break;
+            }
+          }
+        }
       }
     );
   }
@@ -109,6 +125,7 @@ class _EventListPageViewModel {
   bool hasErrors;
   Function logOut;
   Function reset;
+  Function setCurrentEvent;
 
   _EventListPageViewModel(
     this.events,
@@ -116,6 +133,7 @@ class _EventListPageViewModel {
     this.hasErrors,
     this.logOut,
     this.reset,
+    this.setCurrentEvent
   );
 
   _EventListPageViewModel.fromStore(Store<AppState> store) {
@@ -124,5 +142,6 @@ class _EventListPageViewModel {
     hasErrors = store.state.eventState.hasErrors;
     logOut = (context) => store.dispatch(LogOut(context));
     reset = () => store.dispatch(ResetAction());
+    setCurrentEvent = (event) => store.dispatch(SetCurrentEventAction(event));
   }
 }

@@ -20,6 +20,7 @@
         android:name="io.flutter.app.FlutterApplication"
         android:label="PolyHx"
         android:roundIcon="@mipmap/ic_launcher">
+        <meta-data android:name="com.google.android.geo.API_KEY" android:value="AIzaSyCRXgbFiNrgvIEPtRfWvmcXKC381fV3OZw"/>
         <activity
             android:name=".MainActivity"
             android:screenOrientation="portrait"

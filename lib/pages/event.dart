@@ -3,11 +3,11 @@ import 'dart:async';
 import 'package:PolyHxApp/domain/user.dart';
 import 'package:PolyHxApp/pages/info.dart';
 import 'package:PolyHxApp/pages/notification-list.dart';
+import 'package:PolyHxApp/pages/notification.dart';
 import 'package:PolyHxApp/pages/profile.dart';
 import 'package:PolyHxApp/pages/sponsors-page.dart';
 import 'package:PolyHxApp/redux/actions/activities-schedule-actions.dart';
 import 'package:PolyHxApp/redux/actions/attendee-retrieval-actions.dart';
-import 'package:PolyHxApp/redux/actions/notification-actions.dart';
 import 'package:PolyHxApp/redux/actions/sponsors-actions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -83,37 +83,34 @@ class _EventPageState extends State<EventPage> {
         return body;
     }
 
-    Widget _buildBodyAdmin(_EventPageViewModel model) {
-        Widget body;
-        switch (AdminEventTabs.values[_currentTabIndex]) {
-            case AdminEventTabs.Scan:
-                body = AttendeeRetrievalPage(model.event);
-                break;
-            case AdminEventTabs.Notification:
-                body = EventInfoPage();
-                break;
-            case AdminEventTabs.Activities:
-                body = ActivitiesSchedulePage(model.event.id, model.user.role);
-                break;
-            case AdminEventTabs.Profile:
-                body = ProfilePage();
-                break;
-            case AdminEventTabs.Sponsors:
-                body = SponsorsPage();
-                break;
-            default:
-                break;
-        }
-        return body;
+  Widget _buildBodyAdmin(_EventPageViewModel model) {
+    Widget body;
+    switch (AdminEventTabs.values[_currentTabIndex]) {
+      case AdminEventTabs.Scan:
+        body = AttendeeRetrievalPage(model.event);
+        break;
+      case AdminEventTabs.Notification:
+        body = NotificationPage();
+        break;
+      case AdminEventTabs.Activities:
+        body = ActivitiesSchedulePage(model.event.id, model.user.role);
+        break;
+      case AdminEventTabs.Profile:
+        body = ProfilePage();
+        break;
+      case AdminEventTabs.Sponsors:
+        body = SponsorsPage();
+        break;
+      default:
+        break;
     }
 
-    Future<bool> _reset(_EventPageViewModel model) async {
-        model.resetAttendeeRetrieval();
-        model.resetSchedule();
-        model.resetSponsors();
-        model.removeFcmToken();
-        return true;
-    }
+  Future<bool> _reset(_EventPageViewModel model) async {
+    model.resetAttendeeRetrieval();
+    model.resetSchedule();
+    model.resetSponsors();
+    return true;
+  }
 
     List<Widget> _buildItems() {
         return <Widget>[
@@ -250,26 +247,25 @@ class _EventPageState extends State<EventPage> {
 }
 
 class _EventPageViewModel {
-    Event event;
-    User user;
-    Function resetSchedule;
-    Function resetAttendeeRetrieval;
-    Function resetSponsors;
-    Function removeFcmToken;
+  Event event;
+  User user;
+  Function resetSchedule;
+  Function resetAttendeeRetrieval;
+  Function resetSponsors;
 
-    _EventPageViewModel(this.event,
-        this.user,
-        this.resetSchedule,
-        this.resetAttendeeRetrieval,
-        this.resetSponsors,
-        this.removeFcmToken);
+  _EventPageViewModel(
+    this.event,
+    this.user,
+    this.resetSchedule,
+    this.resetAttendeeRetrieval,
+    this.resetSponsors,
+  );
 
-    _EventPageViewModel.fromStore(Store<AppState> store) {
-        event = store.state.currentEvent;
-        user = store.state.currentUser;
-        resetSchedule = () => store.dispatch(ResetScheduleAction());
-        resetAttendeeRetrieval = () => store.dispatch(ResetAttendeeAction());
-        resetSponsors = () => store.dispatch(ResetSponsorsAction());
-        removeFcmToken = () => store.dispatch(RemoveRegistrationToken());
-    }
+  _EventPageViewModel.fromStore(Store<AppState> store) {
+    event = store.state.currentEvent;
+    user = store.state.currentUser;
+    resetSchedule = () => store.dispatch(ResetScheduleAction());
+    resetAttendeeRetrieval = () => store.dispatch(ResetAttendeeAction());
+    resetSponsors = () => store.dispatch(ResetSponsorsAction());
+  }
 }

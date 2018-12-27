@@ -1,9 +1,7 @@
 import 'package:PolyHxApp/components/title.dart';
 import 'package:PolyHxApp/domain/event.dart';
 import 'package:PolyHxApp/pages/bring.dart';
-import 'package:PolyHxApp/pages/hotel.dart';
 import 'package:PolyHxApp/pages/parking.dart';
-import 'package:PolyHxApp/pages/restaurant.dart';
 import 'package:PolyHxApp/redux/state.dart';
 import 'package:PolyHxApp/services/localization.service.dart';
 import 'package:PolyHxApp/utils/constants.dart';
@@ -21,47 +19,18 @@ class Tile {
 }
 
 class EventInfoPage extends StatelessWidget {
-    Map<String, dynamic> _values;
-    final double _widthFactor = 0.41;
-    final double _heightFactor = 0.39;
+  final double _widthFactor = 0.41;
+  final double _heightFactor = 0.39;
 
-    String _getTranslation(BuildContext context, String element) {
-        return _values == null ? LocalizationService
-            .of(context)
-            .eventInfo[element] : _values[element];
-    }
-
-    void _showTileInfo(BuildContext context, String id) {
-        var widget;
-        switch (id) {
-            case '1':
-                widget = BringPage(LocalizationService
-                    .of(context)
-                    .bring);
-                break;
-            case '2':
-                widget = ParkingPage(LocalizationService
-                    .of(context)
-                    .parking);
-                break;
-            case '3':
-                widget = RestaurantPage(LocalizationService
-                    .of(context)
-                    .restaurant);
-                break;
-            case '4':
-                widget = HotelPage(LocalizationService
-                    .of(context)
-                    .hotel);
-                break;
-        }
-        Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (_) => widget,
-                fullscreenDialog: true
-            )
-        );
+  void _showTileInfo(BuildContext context, String id) {
+    var widget;
+    switch (id) {
+      case '1':
+        widget = BringPage(LocalizationService.of(context).bring);
+        break;
+      case '2':
+        widget = ParkingState();
+        break;
     }
 
     Widget _buildTile(BuildContext context, Tile tile) {
@@ -114,63 +83,44 @@ class EventInfoPage extends StatelessWidget {
         );
     }
 
-    Widget _buildTiles(BuildContext context) {
-        return Flexible(
-            child: GridView.count(
-                crossAxisCount: MediaQuery
-                    .of(context)
-                    .size
-                    .width >= 768 ? 3 : 2,
-                padding: EdgeInsets.fromLTRB(10.0, 0.0, 10.0, 10.0),
-                mainAxisSpacing: 4.0,
-                crossAxisSpacing: 4.0,
-                children: [
-                    Tile(
-                        FontAwesomeIcons.clipboardCheck,
-                        _getTranslation(context, 'bring'),
-                        '1'
-                    ),
-                    Tile(
-                        FontAwesomeIcons.parking,
-                        _getTranslation(context, 'parking'),
-                        '2'
-                    ),
-                    Tile(
-                        FontAwesomeIcons.utensils,
-                        _getTranslation(context, 'restaurant'),
-                        '3'
-                    ),
-                    Tile(
-                        Icons.hotel,
-                        _getTranslation(context, 'hotel'),
-                        '4'
-                    )
-                ].map((Tile tile) => _buildTile(context, tile)).toList()
-            )
-        );
-    }
+  Widget _buildTiles(BuildContext context) {
+    return Flexible(
+      child: GridView.count(
+        crossAxisCount: 2,
+        padding: EdgeInsets.fromLTRB(10.0, 0.0, 10.0, 10.0),
+        mainAxisSpacing: 4.0,
+        crossAxisSpacing: 4.0,
+        children: [
+          Tile(
+            FontAwesomeIcons.clipboardCheck,
+            LocalizationService.of(context).eventInfo['bring'],
+            '1'
+          ),
+          Tile(
+            FontAwesomeIcons.parking,
+            LocalizationService.of(context).eventInfo['parking'],
+            '2'
+          )
+        ].map((Tile tile) => _buildTile(context, tile)).toList()
+      )
+    );
+  }
 
-    @override
-    Widget build(BuildContext context) {
-        return StoreConnector<AppState, Event>(
-            onInit: (_) =>
-            _values = LocalizationService
-                .of(context)
-                .eventInfo,
-            converter: (store) => store.state.currentEvent,
-            builder: (BuildContext context, Event event) {
-                return Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                        AppTitle(
-                            _getTranslation(context, 'title'),
-                            MainAxisAlignment.spaceBetween,
-                            FontAwesomeIcons.thLarge
-                        ),
-                        _buildTiles(context)
-                    ]
-                );
-            }
+  @override
+  Widget build(BuildContext context) {
+    return StoreConnector<AppState, Event>(
+      converter: (store) => store.state.currentEvent,
+      builder: (BuildContext context, Event event) {
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            AppTitle(
+              LocalizationService.of(context).eventInfo['title'],
+              MainAxisAlignment.spaceBetween,
+              FontAwesomeIcons.thLarge
+            ),
+            _buildTiles(context)
+          ]
         );
     }
 }

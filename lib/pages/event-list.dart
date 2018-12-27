@@ -48,6 +48,8 @@ class EventList extends StatelessWidget {
         );
   }
 
+
+
   @override
   Widget build(BuildContext context) {
     return StoreConnector<AppState, _EventListPageViewModel>(
@@ -86,6 +88,7 @@ class EventList extends StatelessWidget {
                     onPressed: () {
                       model.logOut(context);
                       model.reset();
+                      model.removeFcmToken();
                     }
                   )
                 ]
@@ -107,8 +110,16 @@ class _EventListPageViewModel {
   bool hasErrors;
   Function logOut;
   Function reset;
+  Function removeFcmToken; 
 
-  _EventListPageViewModel(this.events, this.isLoading, this.hasErrors, this.logOut, this.reset);
+  _EventListPageViewModel(
+    this.events,
+    this.isLoading,
+    this.hasErrors,
+    this.logOut,
+    this.reset,
+    this.removeFcmToken
+  );
 
   _EventListPageViewModel.fromStore(Store<AppState> store) {
     events = store.state.eventState.events;
@@ -116,5 +127,6 @@ class _EventListPageViewModel {
     hasErrors = store.state.eventState.hasErrors;
     logOut = (context) => store.dispatch(LogOut(context));
     reset = () => store.dispatch(ResetAction());
+    removeFcmToken = () => store.dispatch(RemoveRegistrationToken());
   }
 }

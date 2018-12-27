@@ -2,16 +2,20 @@ import 'dart:async';
 
 import 'package:PolyHxApp/redux/actions/login-actions.dart';
 import 'package:PolyHxApp/redux/state.dart';
+import 'package:PolyHxApp/services/attendees.service.dart';
 import 'package:PolyHxApp/services/auth.service.dart';
 import 'package:PolyHxApp/utils/routes.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:redux_epics/redux_epics.dart';
 import 'package:rxdart/rxdart.dart';
 
 class LoginMiddleware implements EpicClass<AppState> {
   final AuthService _authService;
+  final FirebaseMessaging _firebaseMessaging;
+  final AttendeesService _attendeesService;
 
-  LoginMiddleware(this._authService);
+  LoginMiddleware(this._authService, this._firebaseMessaging, this._attendeesService);
 
   @override
   Stream call(Stream actions, EpicStore<AppState> store) {
@@ -44,6 +48,12 @@ class LoginMiddleware implements EpicClass<AppState> {
   }
 
   Stream<dynamic> _logout(BuildContext context) async* {
+    try {
+      String token = await _firebaseMessaging.getToken();
+      await _attendeesService.removeFcmToken(token);
+    } catch(err) {
+      print('An error occured while removing the fcm token $err');
+    }
     _authService.logout();
     Navigator.pushReplacementNamed(context, Routes.LOGIN);
   }

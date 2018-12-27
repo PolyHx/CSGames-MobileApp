@@ -5,6 +5,8 @@ import 'package:PolyHxApp/redux/state.dart';
 import 'package:PolyHxApp/services/attendees.service.dart';
 import 'package:PolyHxApp/services/notification.service.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:redux_epics/redux_epics.dart';
 import 'package:rxdart/rxdart.dart';
 
@@ -26,10 +28,7 @@ class NotificationMiddleware implements EpicClass<AppState> {
         .switchMap((action) => _sendSms(action.eventId, action.message)),
       Observable(actions)
         .ofType(TypeToken<SetupNotificationAction>())
-        .switchMap((action) => _setupNotifications()),
-      Observable(actions)
-        .ofType(TypeToken<RemoveRegistrationToken>())
-        .switchMap((action) => _removeToken())
+        .switchMap((action) => _setupNotifications())
     ]);
   }
 
@@ -58,21 +57,23 @@ class NotificationMiddleware implements EpicClass<AppState> {
         _firebaseMessaging.requestNotificationPermissions(IosNotificationSettings(sound: true, badge: true, alert: true));
         _firebaseMessaging.onIosSettingsRegistered
           .listen((IosNotificationSettings settings) => print('Settings registered: $settings'));
-      } else if (Platform.isAndroid) {
-        _firebaseMessaging.requestNotificationPermissions();
       }
 
       _firebaseMessaging.configure(
         onMessage: (Map<String, dynamic> message) async {
           print('on message $message');
+          showToast(message['notification']['title'], message['notification']['body']);
         },
         onResume: (Map<String, dynamic> message) async {
           print('on resume $message');
+          showToast(message['notification']['title'], message['notification']['body']);
         },
         onLaunch: (Map<String, dynamic> message) async {
           print('on launch $message');
+          showToast(message['notification']['title'], message['notification']['body']);
         }
       );
+
       String token = await _firebaseMessaging.getToken();
       await _attendeesService.setFcmToken(token);
     } catch(err) {
@@ -80,12 +81,12 @@ class NotificationMiddleware implements EpicClass<AppState> {
     }
   }
 
-  Stream<dynamic> _removeToken() async* {
-    try {
-      String token = await _firebaseMessaging.getToken();
-      await _attendeesService.removeFcmToken(token);
-    } catch(err) {
-      print('An error occured while removing the fcm token $err');
-    }
+  void showToast(String title, String message) {
+    Fluttertoast.showToast(
+      msg: '$title : $message',
+      toastLength: Toast.LENGTH_LONG,
+      gravity: ToastGravity.TOP,
+      timeInSecForIos: 5
+    );
   }
 }

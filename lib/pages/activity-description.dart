@@ -46,7 +46,7 @@ class ActivityDescriptionPage extends StatelessWidget {
                       _activity.name,
                       textAlign: TextAlign.left,
                       style: TextStyle(
-                        fontSize: 40.0,
+                        fontSize: 20.0,
                         fontFamily: 'Raleway'
                       )
                     ),
@@ -78,7 +78,7 @@ class ActivityDescriptionPage extends StatelessWidget {
           padding: EdgeInsets.fromLTRB(25.0, 5.0, 25.0, 10.0),
           children: <Widget>[
             Text(
-              _activity.description[LocalizationService.of(context).language],
+              _activity.description[LocalizationService.of(context).language] ?? '',
               textAlign: TextAlign.justify,
               style: TextStyle(
                 fontFamily: 'Raleway',

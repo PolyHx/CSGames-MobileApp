@@ -28,5 +28,3 @@ class SmsNotSentAction {}
 class SmsSentAction {}
 
 class SetupNotificationAction {}
-
-class RemoveRegistrationToken {}

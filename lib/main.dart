@@ -71,11 +71,11 @@ void main() {
       activityDescriptionState: ActivityDescriptionState.initial()
     ),
     middleware: [
-      EpicMiddleware<AppState>(LoginMiddleware(authService)),
       EpicMiddleware<AppState>(SponsorsMiddleware(sponsorsService)),
       EpicMiddleware<AppState>(EventMiddleware(eventsService, tokenService)),
       EpicMiddleware<AppState>(ActivityDescriptionMiddleware(activitiesService)),
       EpicMiddleware<AppState>(ActivitiesScheduleMiddleware(eventsService, scheduleService)),
+      EpicMiddleware<AppState>(LoginMiddleware(authService, firebaseMessaging, attendeesService)),
       EpicMiddleware<AppState>(ProfileMiddleware(tokenService, qrCodeReader, attendeesService, eventsService)),
       EpicMiddleware<AppState>(NotificationMiddleware(notificationService, firebaseMessaging, attendeesService)),
       EpicMiddleware<AppState>(ActivityMiddleware(eventsService, nfcService, attendeesService, usersService, activitiesService)),

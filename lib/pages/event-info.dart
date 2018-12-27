@@ -25,13 +25,15 @@ class EventInfoPage extends StatelessWidget {
   void _showTileInfo(BuildContext context, String id) {
     var widget;
     switch (id) {
-      case '1':
-        widget = BringPage(LocalizationService.of(context).bring);
-        break;
-      case '2':
-        widget = ParkingState();
-        break;
+        case '1':
+            widget = BringPage(LocalizationService.of(context).bring);
+            break;
+        case '2':
+            widget = ParkingState();
+            break;
     }
+    return widget;
+  }
 
     Widget _buildTile(BuildContext context, Tile tile) {
         return GestureDetector(
@@ -106,21 +108,23 @@ class EventInfoPage extends StatelessWidget {
     );
   }
 
-  @override
-  Widget build(BuildContext context) {
-    return StoreConnector<AppState, Event>(
-      converter: (store) => store.state.currentEvent,
-      builder: (BuildContext context, Event event) {
-        return Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            AppTitle(
-              LocalizationService.of(context).eventInfo['title'],
-              MainAxisAlignment.spaceBetween,
-              FontAwesomeIcons.thLarge
-            ),
-            _buildTiles(context)
-          ]
+    @override
+    Widget build(BuildContext context) {
+        return StoreConnector<AppState, Event>(
+            converter: (store) => store.state.currentEvent,
+            builder: (BuildContext context, Event event) {
+                return Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                        AppTitle(
+                            LocalizationService.of(context).eventInfo['title'],
+                            MainAxisAlignment.spaceBetween,
+                            FontAwesomeIcons.thLarge
+                        ),
+                        _buildTiles(context)
+                    ]
+                );
+            }
         );
     }
 }

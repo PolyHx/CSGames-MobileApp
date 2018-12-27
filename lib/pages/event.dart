@@ -86,24 +86,26 @@ class _EventPageState extends State<EventPage> {
   Widget _buildBodyAdmin(_EventPageViewModel model) {
     Widget body;
     switch (AdminEventTabs.values[_currentTabIndex]) {
-      case AdminEventTabs.Scan:
-        body = AttendeeRetrievalPage(model.event);
-        break;
-      case AdminEventTabs.Notification:
-        body = NotificationPage();
-        break;
-      case AdminEventTabs.Activities:
-        body = ActivitiesSchedulePage(model.event.id, model.user.role);
-        break;
-      case AdminEventTabs.Profile:
-        body = ProfilePage();
-        break;
-      case AdminEventTabs.Sponsors:
-        body = SponsorsPage();
-        break;
-      default:
-        break;
+        case AdminEventTabs.Scan:
+            body = AttendeeRetrievalPage(model.event);
+            break;
+        case AdminEventTabs.Notification:
+            body = NotificationPage();
+            break;
+        case AdminEventTabs.Activities:
+            body = ActivitiesSchedulePage(model.event.id, model.user.role);
+            break;
+        case AdminEventTabs.Profile:
+            body = ProfilePage();
+            break;
+        case AdminEventTabs.Sponsors:
+            body = SponsorsPage();
+            break;
+        default:
+            break;
     }
+    return body;
+  }
 
   Future<bool> _reset(_EventPageViewModel model) async {
     model.resetAttendeeRetrieval();
@@ -137,6 +139,7 @@ class _EventPageState extends State<EventPage> {
                     null,
                     size: 30.0,
                 ),
+                onPressed: () => {}
             ),
             IconButton(
                 icon: Icon(

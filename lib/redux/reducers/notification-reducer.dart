@@ -8,7 +8,8 @@ final notificationReducer = combineReducers<NotificationState>([
   TypedReducer<NotificationState, NotificationsLoadedAction>(_setNotifications),
   TypedReducer<NotificationState, ResetNotificationsAction>(_setInitial),
   TypedReducer<NotificationState, SmsNotSentAction>(_onError),
-  TypedReducer<NotificationState, SmsSentAction>(_onSmsSent)
+  TypedReducer<NotificationState, SmsSentAction>(_onSmsSent),
+  TypedReducer<NotificationState, HasUnseenNotificationsAction>(_onHasUnseenNotification)
 ]);
 
 NotificationState _onLoadNotifications(NotificationState state, LoadNotificationsAction action) {
@@ -29,4 +30,8 @@ NotificationState _setInitial(NotificationState state, ResetNotificationsAction 
 
 NotificationState _onSmsSent(NotificationState state, SmsSentAction action) {
   return NotificationState.sent();
+}
+
+NotificationState _onHasUnseenNotification(NotificationState state, HasUnseenNotificationsAction action) {
+  return NotificationState.unseen();
 }

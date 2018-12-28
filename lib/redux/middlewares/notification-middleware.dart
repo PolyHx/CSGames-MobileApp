@@ -1,11 +1,11 @@
 import 'dart:io';
 
+import 'package:PolyHxApp/domain/notification.dart';
 import 'package:PolyHxApp/redux/actions/notification-actions.dart';
 import 'package:PolyHxApp/redux/state.dart';
 import 'package:PolyHxApp/services/attendees.service.dart';
 import 'package:PolyHxApp/services/notification.service.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:redux_epics/redux_epics.dart';
 import 'package:rxdart/rxdart.dart';
@@ -24,20 +24,33 @@ class NotificationMiddleware implements EpicClass<AppState> {
         .ofType(TypeToken<LoadNotificationsAction>())
         .switchMap((action) => _fetchNotifications(action.eventId)),
       Observable(actions)
-        .ofType(TypeToken<SendSms>())
+        .ofType(TypeToken<SendSmsAction>())
         .switchMap((action) => _sendSms(action.eventId, action.message)),
       Observable(actions)
         .ofType(TypeToken<SetupNotificationAction>())
-        .switchMap((action) => _setupNotifications())
+        .switchMap((action) => _setupNotifications()),
+      Observable(actions)
+        .ofType(TypeToken<CheckUnseenNotificationsAction>())
+        .switchMap((action) => _checkUnseenNotifications(action.eventId))
     ]);
   }
 
   Stream<dynamic> _fetchNotifications(String eventId) async* {
+    List<AppNotification> notifications = [];
     try {
-      yield NotificationsLoadedAction(await _notificationService.getNotificationsForEvent(eventId));
+      notifications = await _notificationService.getNotificationsForEvent(eventId);
+      yield NotificationsLoadedAction(notifications);  
     } catch(err) {
       print('An error occured while getting the notifications: $err');
       yield NotificationsNotLoadedAction();
+    }
+
+    try {
+      for (AppNotification n in notifications) {
+        if (!n.seen) await _notificationService.markNotificationAsSeen(n.id);
+      }
+    } catch (err) {
+      print('An error occured while marking the notification as seen $err');
     }
   }
 
@@ -62,15 +75,15 @@ class NotificationMiddleware implements EpicClass<AppState> {
       _firebaseMessaging.configure(
         onMessage: (Map<String, dynamic> message) async {
           print('on message $message');
-          showToast(message['notification']['title'], message['notification']['body']);
+          _showToast(message['notification']['title'], message['notification']['body']);
         },
         onResume: (Map<String, dynamic> message) async {
           print('on resume $message');
-          showToast(message['notification']['title'], message['notification']['body']);
+          _showToast(message['notification']['title'], message['notification']['body']);
         },
         onLaunch: (Map<String, dynamic> message) async {
           print('on launch $message');
-          showToast(message['notification']['title'], message['notification']['body']);
+          _showToast(message['notification']['title'], message['notification']['body']);
         }
       );
 
@@ -81,12 +94,21 @@ class NotificationMiddleware implements EpicClass<AppState> {
     }
   }
 
-  void showToast(String title, String message) {
+  void _showToast(String title, String message) {
     Fluttertoast.showToast(
       msg: '$title : $message',
       toastLength: Toast.LENGTH_LONG,
       gravity: ToastGravity.TOP,
       timeInSecForIos: 5
     );
+  }
+
+  Stream<dynamic> _checkUnseenNotifications(String eventId) async* {
+    try {
+      int unseen = await _notificationService.getUnseenNotification(eventId);
+      if (unseen > 0) yield HasUnseenNotificationsAction();
+    } catch(err) {
+      print('An error occured while checking if the user has unseen notifications $err');
+    }
   }
 }

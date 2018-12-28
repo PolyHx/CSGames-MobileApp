@@ -7,14 +7,47 @@ class NotificationState {
   final bool isLoading;
   final bool hasErrors;
   final bool smsSent;
+  final bool hasUnseenNotifications;
 
-  NotificationState({this.notifications, this.isLoading, this.hasErrors, this.smsSent});
+  NotificationState({this.notifications, this.isLoading, this.hasErrors, this.smsSent, this.hasUnseenNotifications});
 
-  factory NotificationState.initial() => NotificationState(notifications: [], isLoading: false, hasErrors: false, smsSent: false);
+  factory NotificationState.initial() => NotificationState(
+    notifications: [],
+    isLoading: false,
+    hasErrors: false,
+    smsSent: false,
+    hasUnseenNotifications: false
+  );
 
-  factory NotificationState.loading() => NotificationState(notifications: [], isLoading: true, hasErrors: false, smsSent: false);
+  factory NotificationState.loading() => NotificationState(
+    notifications: [],
+    isLoading: true,
+    hasErrors: false,
+    smsSent: false,
+    hasUnseenNotifications: false
+  );
 
-  factory NotificationState.error() => NotificationState(notifications: [], isLoading: false, hasErrors: true, smsSent: false);
+  factory NotificationState.error() => NotificationState(
+    notifications: [],
+    isLoading: false,
+    hasErrors: true,
+    smsSent: false,
+    hasUnseenNotifications: false
+  );
 
-  factory NotificationState.sent() => NotificationState(notifications: [], isLoading: false, hasErrors: false, smsSent: true);
+  factory NotificationState.sent() => NotificationState(
+    notifications: [],
+    isLoading: false,
+    hasErrors: false,
+    smsSent: true,
+    hasUnseenNotifications: false
+  );
+
+  factory NotificationState.unseen() => NotificationState(
+    notifications: [],
+    isLoading: false,
+    hasErrors: false,
+    smsSent: false,
+    hasUnseenNotifications: true
+  );
 }

@@ -17,7 +17,7 @@ class AppTitle extends StatelessWidget {
           Text(
             title,
             style: TextStyle(
-              fontFamily: 'Flipbash',
+              fontFamily: 'Metropolis',
               fontSize: 36.0
             )
           ),

@@ -1,6 +1,6 @@
 Map<String, dynamic> en = {
   'login': {
-    'title': 'LOGIN',
+    'title': 'Login',
     'pwd': 'Password',
     'email': 'Email',
     'login': 'Login'
@@ -13,7 +13,7 @@ Map<String, dynamic> en = {
     'sponsors': 'Sponsors'
   },
   'profile': {
-    'title': 'PROFILE',
+    'title': 'Profile',
     'scan': 'Scan',
     'scanned': 'Attendee Scanned',
     'errors': {
@@ -34,12 +34,12 @@ Map<String, dynamic> en = {
     }
   },
   'sponsors': {
-    'title': 'SPONSORS',
+    'title': 'Sponsors',
     'done': 'Done',
     'error': 'An error occured while loading the sponsors.'
   },
   'event-info': {
-    'title': 'GUIDE',
+    'title': 'Guide',
     'bring': 'What to bring?',
     'parking': 'Parking',
     'restaurant': 'Restaurant',
@@ -50,7 +50,7 @@ Map<String, dynamic> en = {
     'error': 'An error occured while loading events.'
   },
   'bring': {
-    'guide': 'GUIDE',
+    'guide': 'Guide',
     'title': 'What to bring?',
     'card': 'Student card',
     'pc': 'Portable computer & charger',
@@ -64,15 +64,15 @@ Map<String, dynamic> en = {
     'tylenol': 'Tylenol/Advil for headaches'
   },
   'parking': {
-    'guide': 'GUIDE',
+    'guide': 'Guide',
     'title': 'Parking'
   },
   'restaurant': {
-    'guide': 'GUIDE',
+    'guide': 'Guide',
     'title': 'Restaurant'
   },
   'hotel': {
-    'guide': 'GUIDE',
+    'guide': 'Guide',
     'title': 'Hotel'
   },
   'attendee-retrieval': {
@@ -121,10 +121,10 @@ Map<String, dynamic> en = {
     }
   },
   'schedule': {
-    'title': 'SCHEDULE'
+    'title': 'Schedule'
   },
   'info' : {
-    'title': 'INFO'
+    'title': 'Info'
   },
   'notification': {
     'title': 'Notifications',

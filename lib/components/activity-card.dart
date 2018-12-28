@@ -19,7 +19,7 @@ class ActivityCard extends StatelessWidget {
       margin: const EdgeInsets.fromLTRB(0.0, 5.0, 0.0, 5.0),
       child: Material(
         borderRadius: BorderRadius.circular(15.0),
-        elevation: 3.0,
+        elevation: 1.0,
         child: Row(
           children: <Widget>[
             Padding(

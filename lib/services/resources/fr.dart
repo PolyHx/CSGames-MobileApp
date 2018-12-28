@@ -1,6 +1,6 @@
 Map<String, dynamic> fr = {
   'login': {
-    'title': 'CONNEXION',
+    'title': 'Connexion',
     'pwd': 'Mot de passe',
     'email': 'Courriel',
     'login': 'Se connecter'
@@ -13,7 +13,7 @@ Map<String, dynamic> fr = {
     'sponsors': 'Commanditaires'
   },
   'profile': {
-    'title': 'PROFIL',
+    'title': 'Profil',
     'scan': 'Scanner',
     'scanned': 'Participant scanné',
     'errors': {
@@ -34,12 +34,12 @@ Map<String, dynamic> fr = {
     }
   },
   'sponsors': {
-    'title': 'COMMANDITAIRES',
+    'title': 'Commanditaires',
     'done': 'Terminer',
     'error': 'Une erreur s\'est produite lors du chargement des commanditaires.'
   },
   'event-info': {
-    'title': 'GUIDE',
+    'title': 'Guide',
     'bring': 'Quoi apporter?',
     'parking': 'Stationnement',
     'restaurant': 'Restaurant',
@@ -50,7 +50,7 @@ Map<String, dynamic> fr = {
     'error': 'Une erreur s\'est produite lors du chargement des événements.'
   },
   'bring': {
-    'guide': 'GUIDE',
+    'guide': 'Guide',
     'title': 'Quoi apporter?',
     'card': 'Carte étudiante',
     'pc': 'Ordinateur portable & chargeur',
@@ -64,15 +64,15 @@ Map<String, dynamic> fr = {
     'tylenol': 'Tylenol/Advil pour les maux de têtes'
   },
   'parking': {
-    'guide': 'GUIDE',
+    'guide': 'Guide',
     'title': 'Stationnement'
   },
   'restaurant': {
-    'guide': 'GUIDE',
+    'guide': 'Guide',
     'title': 'Restaurant'
   },
   'hotel': {
-    'guide': 'GUIDE',
+    'guide': 'Guide',
     'title': 'Hôtel'
   },
   'attendee-retrieval': {
@@ -121,10 +121,10 @@ Map<String, dynamic> fr = {
     }
   },
   'schedule': {
-    'title': 'HORAIRE'
+    'title': 'Horaire'
   },
   'info' : {
-    'title': 'INFO'
+    'title': 'Info'
   },
   'notification': {
     'title': 'Notifications',

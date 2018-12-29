@@ -20,6 +20,7 @@ class ActivityCard extends StatelessWidget {
       child: Material(
         borderRadius: BorderRadius.circular(15.0),
         elevation: 1.0,
+        color: Colors.white,
         child: Row(
           children: <Widget>[
             Padding(
@@ -31,7 +32,7 @@ class ActivityCard extends StatelessWidget {
                     _activity.name,
                     style: TextStyle(
                       fontSize: 20.0,
-                      fontFamily: 'Raleway'
+                      fontFamily: 'OpenSans'
                     )
                   ),
                   Padding(
@@ -40,7 +41,7 @@ class ActivityCard extends StatelessWidget {
                       "$beginHour - $endHour",
                       style: TextStyle(
                         fontSize: 15.0,
-                        fontFamily: 'Raleway'
+                        fontFamily: 'OpenSans'
                       )
                     )
                   ),
@@ -51,7 +52,7 @@ class ActivityCard extends StatelessWidget {
                       style: TextStyle(
                         fontWeight: FontWeight.w100,
                         fontSize: 15.0,
-                        fontFamily: 'Raleway'
+                        fontFamily: 'OpenSans'
                       )
                     )
                   )

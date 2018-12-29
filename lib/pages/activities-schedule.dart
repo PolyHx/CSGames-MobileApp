@@ -5,6 +5,7 @@ import 'package:PolyHxApp/redux/actions/activities-schedule-actions.dart';
 import 'package:PolyHxApp/redux/state.dart';
 import 'package:PolyHxApp/redux/states/activities-schedule-state.dart';
 import 'package:PolyHxApp/services/localization.service.dart';
+import 'package:PolyHxApp/services/schedule.service.dart';
 import 'package:PolyHxApp/utils/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -87,13 +88,14 @@ class _ActivitiesScheduleState extends State<ActivitiesSchedulePage> with Ticker
                     child: Material(
                         borderRadius: BorderRadius.circular(15.0),
                         elevation: 0.3,
+                        color: Colors.white,
                         child: TabBar(
                             indicator: BoxDecoration(
                                 color: Constants.polyhxRed,
                                 borderRadius: BorderRadius.circular(15.0)
                             ),
                             labelStyle: TextStyle(
-                                fontFamily: 'Raleway',
+                                fontFamily: 'OpenSans',
                                 fontSize: MediaQuery
                                     .of(context)
                                     .size
@@ -112,7 +114,7 @@ class _ActivitiesScheduleState extends State<ActivitiesSchedulePage> with Ticker
                         children: _activities.keys.map((d) =>
                             SingleChildScrollView(
                                 child: Column(
-                                    children: _activities[d].keys.map((t) =>
+                                    children: ScheduleService.getSortedKeysForDaySchedule(_activities[d]).map((t) =>
                                         Container(
                                             child: Column(
                                                 children: <Widget>[

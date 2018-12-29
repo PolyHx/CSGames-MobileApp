@@ -3,47 +3,88 @@ import 'package:PolyHxApp/redux/actions/notification-actions.dart';
 import 'package:PolyHxApp/redux/state.dart';
 import 'package:PolyHxApp/domain/notification.dart';
 import 'package:PolyHxApp/services/localization.service.dart';
+import 'package:PolyHxApp/utils/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:intl/intl.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:redux/redux.dart';
+import 'package:timeago/timeago.dart' as timeago;
 
 class NotificationListPage extends StatelessWidget {
   Widget _buildTile(BuildContext context, AppNotification notification) {
-    String code = LocalizationService.of(context).code;
-    DateFormat formatter = DateFormat('MMMM d H:mm', code);
-    String date = formatter.format(notification.date);
+    String date = timeago.format(notification.date, locale: LocalizationService.of(context).code);
     return Padding(
-      padding: EdgeInsets.fromLTRB(10.0, 2.0, 10.0, 2.0),
+      padding: EdgeInsets.fromLTRB(15.0, 3.0, 15.0, 3.0),
       child: Container(
-        height: MediaQuery.of(context).size.width * 0.15,
+        height: MediaQuery.of(context).size.height * 0.1,
         child: Material(
           borderRadius: BorderRadius.circular(5.0),
           elevation: 1.0,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              Padding(
-                padding: EdgeInsets.only(left: 10.0),
-                child: Text(
-                  notification.title,
-                  style: TextStyle(
-                    fontFamily: 'Raleway',
-                    fontSize: 30.0
+          child: Padding(
+            padding: EdgeInsets.only(left: 10.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                Padding(
+                  padding: EdgeInsets.only(left: 10.0),
+                  child: Icon(
+                    notification.type == 'event' ? FontAwesomeIcons.calendar : FontAwesomeIcons.calendarCheck,
+                    color: notification.type == 'event' ? Constants.polyhxRed : Colors.blue,
+                  )
+                ),
+                Container(
+                  width: MediaQuery.of(context).size.width * 0.8,
+                  child: Padding(
+                    padding: EdgeInsets.only(left: 10.0),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            Padding(
+                              padding: EdgeInsets.only(top: 10.0),
+                              child: Text(
+                                notification.title,
+                                style: TextStyle(
+                                  fontFamily: 'Raleway',
+                                  fontSize: 12.0,
+                                  fontWeight: FontWeight.bold
+                                )
+                              )
+                            ),
+                            Padding(
+                              padding: EdgeInsets.only(top: 2.0),
+                              child: Container(
+                                width: MediaQuery.of(context).size.width * 0.8,
+                                child: Text(
+                                  notification.body,
+                                  style: TextStyle(
+                                    fontFamily: 'Raleway',
+                                    fontSize: 12.0
+                                  )
+                                )
+                              )
+                            ),
+                          ]
+                        ),
+                        Padding(
+                          padding: EdgeInsets.only(bottom: 8.0),
+                          child: Text(
+                            date,
+                            style: TextStyle(
+                              fontFamily: 'Raleway',
+                              fontSize: 10.0
+                            )
+                          )
+                        )
+                      ]
+                    )
                   )
                 )
-              ),
-              Padding(
-                padding: EdgeInsets.only(left: 10.0),
-                child: Text(
-                  date,
-                  style: TextStyle(
-                    fontFamily: 'Raleway',
-                    fontSize: 15.0
-                  )
-                )
-              )
-            ]
+              ]
+            )
           )
         )
       )
@@ -51,14 +92,18 @@ class NotificationListPage extends StatelessWidget {
   }
 
   Widget _buildNotifications(BuildContext context, _NotificationsListViewModel model) {
-    return ListView(
-      scrollDirection: Axis.vertical,
-      shrinkWrap: true,
-      children: model.notifications.map((n) => _buildTile(context, n)).toList()
+    return Padding(
+      padding: EdgeInsets.only(top: 10.0),
+      child: ListView(
+        scrollDirection: Axis.vertical,
+        shrinkWrap: true,
+        children: model.notifications.map((n) => _buildTile(context, n)).toList()
+      )
     );
   }
 
   Widget _buildBody(BuildContext context, _NotificationsListViewModel model) {
+    model.notifications.sort((AppNotification a, AppNotification b) => b.date.compareTo(a.date));
     return model.hasErrors
       ? Text(LocalizationService.of(context).notification['error'])
       : _buildNotifications(context, model);
@@ -91,11 +136,9 @@ class NotificationListPage extends StatelessWidget {
               )
             )
           ),
-          body: Center(
-            child: model.isLoading
-              ? LoadingSpinner()
-              : _buildBody(context, model)
-          )
+          body: model.isLoading
+            ? Center(child: LoadingSpinner())
+            : _buildBody(context, model)
         );
       }
     );

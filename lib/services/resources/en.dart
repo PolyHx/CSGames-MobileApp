@@ -128,6 +128,12 @@ Map<String, dynamic> en = {
   },
   'notification': {
     'title': 'Notifications',
-    'error': 'An error occured while loading the notifications'
+    'error': 'An error occured while loading the notifications',
+    'sms': 'Send Sms',
+    'sms-text': 'Enter Sms text',
+    'push': 'Send Push Notifications',
+    'push-title': 'Enter push notification title',
+    'push-text': 'Enter push notification text',
+    'send': 'Send'
   }
 };

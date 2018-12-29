@@ -128,6 +128,12 @@ Map<String, dynamic> fr = {
   },
   'notification': {
     'title': 'Notifications',
-    'error': 'Une erreur s\'est produite lors du chargement des notifications.'
+    'error': 'Une erreur s\'est produite lors du chargement des notifications.',
+    'sms': 'Envoyer un Sms',
+    'sms-text': 'Entrer le text du Sms',
+    'push': 'Envoyer une notification push',
+    'push-title': 'Entrer le titre de la notification',
+    'push-text': 'Entrer le text de la notification',
+    'send': 'Envoyer'
   }
 };

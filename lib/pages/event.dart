@@ -8,6 +8,7 @@ import 'package:PolyHxApp/pages/profile.dart';
 import 'package:PolyHxApp/pages/sponsors-page.dart';
 import 'package:PolyHxApp/redux/actions/activities-schedule-actions.dart';
 import 'package:PolyHxApp/redux/actions/attendee-retrieval-actions.dart';
+import 'package:PolyHxApp/redux/actions/notification-actions.dart';
 import 'package:PolyHxApp/redux/actions/sponsors-actions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -199,19 +200,37 @@ class _EventPageState extends State<EventPage> {
                 style: TextStyle(fontFamily: 'Raleway')
             ),
             actions: <Widget>[
-                IconButton(
-                    icon: Icon(FontAwesomeIcons.bell),
-                    color: Colors.white,
-                    onPressed: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (_) => NotificationListPage(),
-                                fullscreenDialog: true
+                Stack(
+                    children: <Widget>[
+                        IconButton(
+                            icon: Icon(FontAwesomeIcons.bell),
+                            color: Colors.white,
+                            onPressed: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (_) => NotificationListPage(),
+                                        fullscreenDialog: true
+                                    )
+                                );
+                            }
+                        ),
+                        Positioned(
+                            top: 9.0,
+                            right: 9.0,
+                            child: Center(
+                              child: Container(
+                                width: 10,
+                                decoration: BoxDecoration(
+                                  color: model.hasUnseenNotifications == true ? Colors.white : Colors.transparent,
+                                  shape: BoxShape.circle
+                                ),
+                                child: Text('')
+                              )
                             )
-                        );
-                    }
-                )
+                        )
+                    ]
+                )  
             ]
         );
     }
@@ -219,6 +238,7 @@ class _EventPageState extends State<EventPage> {
     @override
     Widget build(BuildContext context) {
         return StoreConnector<AppState, _EventPageViewModel>(
+            onInit: (store) => store.dispatch(CheckUnseenNotificationsAction(store.state.currentEvent.id)),
             converter: (store) => _EventPageViewModel.fromStore(store),
             builder: (BuildContext context, _EventPageViewModel model) {
                 Widget body;
@@ -250,6 +270,7 @@ class _EventPageState extends State<EventPage> {
 }
 
 class _EventPageViewModel {
+  bool hasUnseenNotifications;
   Event event;
   User user;
   Function resetSchedule;
@@ -257,14 +278,16 @@ class _EventPageViewModel {
   Function resetSponsors;
 
   _EventPageViewModel(
+    this.hasUnseenNotifications,
     this.event,
     this.user,
     this.resetSchedule,
     this.resetAttendeeRetrieval,
-    this.resetSponsors,
+    this.resetSponsors
   );
 
   _EventPageViewModel.fromStore(Store<AppState> store) {
+    hasUnseenNotifications = store.state.notificationState.hasUnseenNotifications;
     event = store.state.currentEvent;
     user = store.state.currentUser;
     resetSchedule = () => store.dispatch(ResetScheduleAction());

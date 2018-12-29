@@ -23,6 +23,7 @@ dependencies:
   firebase_messaging: ^2.1.0
   google_maps_flutter: ^0.0.3+3
   fluttertoast: ^2.2.2
+  timeago: ^2.0.10
 
 dev_dependencies:
   flutter_test:

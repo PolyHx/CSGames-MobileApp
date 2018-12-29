@@ -11,13 +11,8 @@ import 'package:qr_flutter/qr_flutter.dart';
 import 'package:redux/redux.dart';
 
 class ProfilePage extends StatelessWidget {
-  Map<String, dynamic> _values;
   bool _isErrorDialogOpen = false;
   bool _isAttendeeScanned = false;
-
-  dynamic _getTranslation(BuildContext context, String element) {
-    return _values == null ? LocalizationService.of(context).profile[element] : _values[element];
-  }
 
   Widget _buildAvatar(BuildContext context, _ProfilePageViewModel model) {
     double size = MediaQuery.of(context).size.width * 0.4;
@@ -58,11 +53,11 @@ class ProfilePage extends StatelessWidget {
     return Padding(
       padding: EdgeInsets.fromLTRB(0.0, 10.0, 0.0, 0.0),
       child: PillButton(
-        onPressed: () => model.scan(_getTranslation(context, 'errors')),
+        onPressed: () => model.scan(LocalizationService.of(context).profile['errors']),
           child: Padding(
             padding: EdgeInsets.fromLTRB(25.0, 15.0, 25.0, 15.0),
             child: Text(
-            _getTranslation(context, 'scan'),
+            LocalizationService.of(context).profile['scan'],
             style: TextStyle(
               color: Colors.white,
               fontWeight: FontWeight.bold,
@@ -100,14 +95,13 @@ class ProfilePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return StoreConnector<AppState, _ProfilePageViewModel>(
-      onInit: (_) => _values = LocalizationService.of(context).profile,
       converter: (store) => _ProfilePageViewModel.fromStore(store),
       builder: (BuildContext _, _ProfilePageViewModel model) {
         return SingleChildScrollView(
           padding: EdgeInsets.only(bottom: 7.0),
           child: Column(
             children: <Widget>[
-              AppTitle(_getTranslation(context, 'title'), MainAxisAlignment.start),
+              AppTitle(LocalizationService.of(context).profile['title'], MainAxisAlignment.start),
               _buildAvatar(context, model),
               _buildName(model),
               _buildQR(context, model),
@@ -126,7 +120,7 @@ class ProfilePage extends StatelessWidget {
           Scaffold.of(context).showSnackBar(
             SnackBar(
               content: Text(
-                _values['scanned'],
+                LocalizationService.of(context).profile['scanned'],
                 style: TextStyle(color: Colors.white)
               ),
               action: SnackBarAction(

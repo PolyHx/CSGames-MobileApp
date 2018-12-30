@@ -101,7 +101,7 @@ class ActivityDescriptionPage extends StatelessWidget {
           if (!model.isSubscribed) model.subscribe(_activity.id);
         },
         child: Padding(
-          padding: EdgeInsets.fromLTRB(25.0, 12.5, 25.0, 12.5),
+          padding: EdgeInsets.fromLTRB(16.0, 12.5, 16.0, 12.5),
           child: Text(
             model.isSubscribed ? _values['subscribed'] : _values['subscribe'],
             style: TextStyle(

@@ -63,7 +63,7 @@ class SponsorsDialog extends StatelessWidget {
     return PillButton(
       onPressed: () => Navigator.pop(context),
       child: Padding(
-        padding: EdgeInsets.fromLTRB(25.0, 12.5, 25.0, 12.5),
+        padding: EdgeInsets.fromLTRB(16.0, 12.5, 16.0, 12.5),
         child: Text(
           LocalizationService.of(context).sponsors['done'],
           style: TextStyle(

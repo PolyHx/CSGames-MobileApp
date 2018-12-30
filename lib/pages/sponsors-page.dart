@@ -20,7 +20,7 @@ class SponsorsPage extends StatelessWidget {
       value,
       textAlign: TextAlign.center,
       style: TextStyle(
-        fontFamily: 'Flipbash',
+        fontFamily: 'OpenSans',
         fontSize: 20.0
       )
     );

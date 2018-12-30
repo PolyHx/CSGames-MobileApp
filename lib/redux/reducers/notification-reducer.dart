@@ -7,16 +7,17 @@ final notificationReducer = combineReducers<NotificationState>([
   TypedReducer<NotificationState, NotificationsNotLoadedAction>(_onError),
   TypedReducer<NotificationState, NotificationsLoadedAction>(_setNotifications),
   TypedReducer<NotificationState, ResetNotificationsAction>(_setInitial),
-  TypedReducer<NotificationState, SmsNotSentAction>(_onError),
+  TypedReducer<NotificationState, NotificationNotSentAction>(_onNotificationsNotSent),
   TypedReducer<NotificationState, SmsSentAction>(_onSmsSent),
-  TypedReducer<NotificationState, HasUnseenNotificationsAction>(_onHasUnseenNotification)
+  TypedReducer<NotificationState, HasUnseenNotificationsAction>(_onHasUnseenNotification),
+  TypedReducer<NotificationState, PushSentAction>(_onPushSent)
 ]);
 
 NotificationState _onLoadNotifications(NotificationState state, LoadNotificationsAction action) {
   return NotificationState.loading();
 }
 
-NotificationState _onError(NotificationState state, dynamic action) {
+NotificationState _onError(NotificationState state, NotificationsNotLoadedAction action) {
   return NotificationState.error();
 }
 
@@ -29,9 +30,25 @@ NotificationState _setInitial(NotificationState state, ResetNotificationsAction 
 }
 
 NotificationState _onSmsSent(NotificationState state, SmsSentAction action) {
-  return NotificationState.sent();
+  return NotificationState.sms();
 }
 
 NotificationState _onHasUnseenNotification(NotificationState state, HasUnseenNotificationsAction action) {
   return NotificationState.unseen();
+}
+
+NotificationState _onPushSent(NotificationState state PushSentAction action) {
+  return NotificationState.push();
+}
+
+NotificationState _onNotificationsNotSent(NotificationState state NotificationNotSentAction action) {
+  return NotificationState(
+    notifications: [],
+    isLoading: false,
+    hasErrors: true,
+    smsSent: false,
+    hasUnseenNotifications: false,
+    pushSent: false,
+    notificationError: action.error
+  );
 }

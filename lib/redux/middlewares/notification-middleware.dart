@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:PolyHxApp/domain/activity.dart';
 import 'package:PolyHxApp/domain/notification.dart';
 import 'package:PolyHxApp/redux/actions/notification-actions.dart';
 import 'package:PolyHxApp/redux/state.dart';
@@ -31,7 +32,10 @@ class NotificationMiddleware implements EpicClass<AppState> {
         .switchMap((action) => _setupNotifications()),
       Observable(actions)
         .ofType(TypeToken<CheckUnseenNotificationsAction>())
-        .switchMap((action) => _checkUnseenNotifications(action.eventId))
+        .switchMap((action) => _checkUnseenNotifications(action.eventId)),
+      Observable(actions)
+        .ofType(TypeToken<SendPushAction>())
+        .switchMap((action) => _sendPush(action.eventId, action.title, action.body, action.activity))
     ]);
   }
 
@@ -56,11 +60,26 @@ class NotificationMiddleware implements EpicClass<AppState> {
 
   Stream<dynamic> _sendSms(String eventId, String message) async* {
     try {
-      await _notificationService.sendSms(eventId, message);
-      yield SmsSentAction();
+      bool result = await _notificationService.sendSms(eventId, message);
+      if (result) yield SmsSentAction();
+      else yield NotificationNotSentAction('An error occured while sending the sms.');
     } catch(err) {
       print('An error occured while sending the sms : $err');
-      yield SmsNotSentAction();
+      yield NotificationNotSentAction(err);
+    }
+  }
+
+  Stream<dynamic> _sendPush(String eventId, String title, String body, Activity activity) async* {
+    try {
+      bool result;
+      if (activity.name == 'Event') result = await _notificationService.sendPushToEvent(eventId, title, body);
+      else result = await _notificationService.sendPushToActivity(activity.id, title, body); 
+      
+      if (result) yield PushSentAction();
+      else yield NotificationNotSentAction('An error occured while sending the push notification.');
+    } catch(err) {
+      print('An error occured while sending the push notification : $err');
+      yield NotificationNotSentAction(err);
     }
   }
 

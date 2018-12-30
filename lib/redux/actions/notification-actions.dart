@@ -1,3 +1,4 @@
+import 'package:PolyHxApp/domain/activity.dart';
 import 'package:PolyHxApp/domain/notification.dart';
 
 class LoadNotificationsAction {
@@ -23,8 +24,6 @@ class SendSmsAction {
   SendSmsAction(this.eventId, this.message);
 }
 
-class SmsNotSentAction {}
-
 class SmsSentAction {}
 
 class SetupNotificationAction {}
@@ -36,3 +35,20 @@ class CheckUnseenNotificationsAction {
 }
 
 class HasUnseenNotificationsAction {}
+
+class SendPushAction {
+  final String eventId;
+  final String title;
+  final String body;
+  final Activity activity;
+
+  SendPushAction(this.eventId, this.title, this.body, this.activity);
+}
+
+class PushSentAction {}
+
+class NotificationNotSentAction {
+  final error;
+
+  NotificationNotSentAction(this.error);
+}

@@ -18,12 +18,13 @@ class ActivitiesScheduleMiddleware implements EpicClass<AppState> {
   Stream call(Stream actions, EpicStore<AppState> store) {
     return Observable(actions)
       .ofType(TypeToken<LoadActivitiesScheduleAction>())
-      .switchMap((action) => _fetchActivities(action.eventId, action.code));
+      .switchMap((action) => _fetchActivities(action.eventId, action.code, action.completer));
   }
 
-  Stream<dynamic> _fetchActivities(String eventId, String code) async* {
+  Stream<dynamic> _fetchActivities(String eventId, String code, Completer completer) async* {
     try {
       List<Activity> activities = await this.eventsService.getActivitiesForEvent(eventId);
+      completer.complete(activities);
       Map<String, Map<String, List<Activity>>> activitiesPerDay = scheduleService.getActivitiesPerDay(activities, code);
       yield ActivitiesScheduleLoadedAction(activitiesPerDay);
     } catch (err) {

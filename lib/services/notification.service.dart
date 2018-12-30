@@ -21,9 +21,6 @@ class NotificationService {
     List<AppNotification> notifications = [];
     for (var n in responseMap) {
       notifications.add(AppNotification.fromMap(n));
-      notifications.add(AppNotification.fromMap(n));
-      notifications.add(AppNotification.fromMap(n));
-      notifications.add(AppNotification.fromMap(n));
     }
     return notifications;
   }
@@ -51,7 +48,29 @@ class NotificationService {
       body: body,
       headers: headers
     );
-    return response.statusCode == 200;
+    return response.statusCode == 201;
+  }
+
+  Future<bool> sendPushToEvent(String eventId, String title, String content) async {
+    final headers = {'Authorization': 'Bearer ${_tokenService.accessToken}'};
+    final body = {'title': title, 'body': content};
+    final response = await _http.post(
+      '${Environment.eventManagementUrl}/event/$eventId/notification',
+      body: body,
+      headers: headers
+    );
+    return response.statusCode == 201;
+  }
+
+  Future<bool> sendPushToActivity(String activityId, String title, String content) async {
+    final headers = {'Authorization': 'Bearer ${_tokenService.accessToken}'};
+    final body = {'title': title, 'body': content};
+    final response = await _http.post(
+      '${Environment.eventManagementUrl}/activity/$activityId/notification',
+      body: body,
+      headers: headers
+    );
+    return response.statusCode == 201;
   }
 
   Future<bool> markNotificationAsSeen(String id) async {

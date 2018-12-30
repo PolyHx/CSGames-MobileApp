@@ -47,7 +47,7 @@ class SponsorsDialog extends StatelessWidget {
       child: InkWell(
         onTap: () => launch(_sponsors.website),
         child: Text(
-          'polyhx.io',
+          _sponsors.website,
           style: TextStyle(
             fontFamily: 'Raleway',
             fontSize: 18.0,
@@ -115,7 +115,7 @@ class SponsorsDialog extends StatelessWidget {
     return Center(
       child: Container(
         width: MediaQuery.of(context).size.width * 0.9,
-        height: MediaQuery.of(context).size.height * 0.8,
+        height: MediaQuery.of(context).size.height * 0.75,
         child: _buildBody(context)
       )
     );

@@ -16,22 +16,34 @@ class SponsorsService {
           headers: {'Authorization' : 'Bearer ${_tokenService.accessToken}'});
     final responseMap = json.decode(response.body);
     Map<String, List<Sponsors>> result = {};
-    result['Petabytes'] = [];
-    for (var s in responseMap['Petabytes']) {
-      result['Petabytes'].add(Sponsors.fromMap(s));
+    if (responseMap.containsKey('Petabytes')) {
+      result['Petabytes'] = [];
+      for (var s in responseMap['Petabytes']) {
+        result['Petabytes'].add(Sponsors.fromMap(s));
+      }
     }
-    result['Terabytes'] = [];
-    for (var s in responseMap['Terabytes']) {
-      result['Terabytes'].add(Sponsors.fromMap(s));
+    
+    if(responseMap.containsKey('Terabytes')) {
+      result['Terabytes'] = [];
+      for (var s in responseMap['Terabytes']) {
+        result['Terabytes'].add(Sponsors.fromMap(s));
+      }
     }
-    result['Gigabytes'] = [];
-    for (var s in responseMap['Gigabytes']) {
-      result['Gigabytes'].add(Sponsors.fromMap(s));
+
+    if(responseMap.containsKey('Gigabytes')) {
+      result['Gigabytes'] = [];
+      for (var s in responseMap['Gigabytes']) {
+        result['Gigabytes'].add(Sponsors.fromMap(s));
+      }
     }
-    result['Megabytes'] = [];
-    for (var s in responseMap['Megabytes']) {
-      result['Megabytes'].add(Sponsors.fromMap(s));
+
+    if (responseMap.containsKey('Megabytes')) {
+      result['Megabytes'] = [];
+      for (var s in responseMap['Megabytes']) {
+        result['Megabytes'].add(Sponsors.fromMap(s));
+      }
     }
+    
     return result;
   }
 }

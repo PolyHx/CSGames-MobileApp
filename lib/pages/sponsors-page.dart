@@ -11,15 +11,6 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:redux/redux.dart';
 
 class SponsorsPage extends StatelessWidget {
-  Map<String, dynamic> _values;
-  final double widthFactorPeta = 0.6;
-  final double widthFactorTera = 0.4;
-  final double widthFactoreGiga = 0.3;
-
-  String _getTranslation(BuildContext context, String element) {
-    return _values == null ? LocalizationService.of(context).sponsors[element] : _values[element];
-  }
-
   void _openDialog(BuildContext context, Sponsors sponsors) {
     showDialog(context: context, builder: (_) => SponsorsDialog(sponsors), barrierDismissible: false);
   }
@@ -71,37 +62,52 @@ class SponsorsPage extends StatelessWidget {
   }
 
   Widget _buildSponsors(BuildContext context, _SponsorsPageViewModel model) {
-    List<String> keys = model.sponsors.isNotEmpty ? model.sponsors.keys.toList() : [];
     return model.hasErrors
-      ? Text(_values['error'])
+      ? Text(LocalizationService.of(context).sponsors['error'])
       : Column(
           children: <Widget>[
-            AppTitle(_getTranslation(context, 'title'), MainAxisAlignment.start),
+            AppTitle(LocalizationService.of(context).sponsors['title'], MainAxisAlignment.start),
             Expanded(
               child: ListView(
                 scrollDirection: Axis.vertical,
                 shrinkWrap: true,
-                children: model.sponsors.isEmpty ? [] : <Widget>[
-                  _buildSubtitle(keys[0].toUpperCase()),
-                  _buildLevel(context, model.sponsors[keys[0]], 1),
-                  _buildSubtitle(keys[1].toUpperCase()),
-                  _buildLevel(context, model.sponsors[keys[1]], 2),
-                  _buildSubtitle(keys[2].toUpperCase()),
-                  _buildLevel(context, model.sponsors[keys[2]], 2),
-                  _buildSubtitle(keys[3].toUpperCase()),
-                  _buildLevel(context, model.sponsors[keys[3]], 2)
-                ]
+                children: model.sponsors.isEmpty ? [] 
+                : _groupSponsors(context, model.sponsors)
               )
             )
           ]
         );
   }
 
+  List<Widget> _groupSponsors(BuildContext context, Map<String, List<Sponsors>> sponsors) {
+    List<Widget> widgets = [];
+    if (sponsors.containsKey('Petabytes')) {
+      widgets.add(_buildSubtitle('PETABYTES'));
+      widgets.add(_buildLevel(context, sponsors['Petabytes'], 1));
+    }
+
+    if (sponsors.containsKey('Terabytes')) {
+      widgets.add(_buildSubtitle('TERABYTES'));
+      widgets.add(_buildLevel(context, sponsors['Terabytes'], 1));
+    }
+
+    if (sponsors.containsKey('Gigabytes')) {
+      widgets.add(_buildSubtitle('GIGABYTES'));
+      widgets.add(_buildLevel(context, sponsors['Gigabytes'], 2));
+    }
+
+    if (sponsors.containsKey('Megabytes')) {
+      widgets.add(_buildSubtitle('MEGABYTES'));
+      widgets.add(_buildLevel(context, sponsors['Megabytes'], 2));
+    }
+
+    return widgets;
+  }
+
   @override
   Widget build(BuildContext context) {
     return StoreConnector<AppState, _SponsorsPageViewModel>(
       onInit: (store) {
-        _values = LocalizationService.of(context).sponsors;
         final sponsorsState = store.state.sponsorsState;
         if (sponsorsState.sponsors.isEmpty && !sponsorsState.hasErrors) {
           store.dispatch(LoadSponsorsAction(store.state.currentEvent.id));

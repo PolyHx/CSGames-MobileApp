@@ -32,7 +32,13 @@ class EventInfoPage extends StatelessWidget {
             widget = ParkingState();
             break;
     }
-    return widget;
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (_) => widget,
+          fullscreenDialog: true
+        )
+    );
   }
 
     Widget _buildTile(BuildContext context, Tile tile) {

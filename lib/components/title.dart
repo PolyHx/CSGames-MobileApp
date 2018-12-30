@@ -10,14 +10,14 @@ class AppTitle extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.all(20.0),
+      padding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
       child: Row(
         mainAxisAlignment: this.alignment,
         children: <Widget>[
           Text(
             title,
             style: TextStyle(
-              fontFamily: 'Metropolis',
+              fontFamily: 'OpenSans',
               fontSize: 36.0
             )
           ),

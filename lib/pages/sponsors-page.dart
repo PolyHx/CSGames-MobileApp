@@ -71,8 +71,7 @@ class SponsorsPage extends StatelessWidget {
               child: ListView(
                 scrollDirection: Axis.vertical,
                 shrinkWrap: true,
-                children: model.sponsors.isEmpty ? [] 
-                : _groupSponsors(context, model.sponsors)
+                children: model.sponsors.isEmpty ? [] : _groupSponsors(context, model.sponsors)
               )
             )
           ]

@@ -73,7 +73,7 @@ class _ParkingPageState extends State<ParkingState> {
                   }
                 },
                 child: Padding(
-                  padding: EdgeInsets.fromLTRB(25.0, 12.5, 25.0, 12.5),
+                  padding: EdgeInsets.fromLTRB(16.0, 12.5, 16.0, 12.5),
                   child: Text(
                     'Directions',
                     style: TextStyle(

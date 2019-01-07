@@ -20,6 +20,7 @@ import 'package:PolyHxApp/services/activities.service.dart';
 import 'package:PolyHxApp/services/notification.service.dart';
 import 'package:PolyHxApp/services/schedule.service.dart';
 import 'package:PolyHxApp/services/sponsors.service.dart';
+import 'package:PolyHxApp/utils/http-client.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:http/http.dart';
 import 'package:flutter/material.dart';
@@ -50,13 +51,14 @@ void main() {
   final scheduleService = ScheduleService();
   final tokenService = TokenService(client);
   final firebaseMessaging = FirebaseMessaging();
+  final httpClient = HttpClient(client, tokenService);
   final authService = AuthService(client, tokenService);
-  final usersService = UsersService(client, tokenService);
-  final eventsService = EventsService(client, tokenService);
-  final sponsorsService = SponsorsService(client, tokenService);
-  final attendeesService = AttendeesService(client, tokenService);
-  final activitiesService = ActivitiesService(client, tokenService);
-  final notificationService = NotificationService(client,tokenService);
+  final usersService = UsersService(httpClient);
+  final eventsService = EventsService(httpClient);
+  final sponsorsService = SponsorsService(httpClient);
+  final attendeesService = AttendeesService(httpClient);
+  final activitiesService = ActivitiesService(httpClient);
+  final notificationService = NotificationService(httpClient);
   final store = Store<AppState>(
     appReducer,
     initialState: AppState(

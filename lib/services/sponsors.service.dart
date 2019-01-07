@@ -1,19 +1,16 @@
 import 'dart:convert';
 
 import 'package:PolyHxApp/domain/sponsors.dart';
-import 'package:PolyHxApp/services/token.service.dart';
-import 'package:http/http.dart';
+import 'package:PolyHxApp/utils/http-client.dart';
 import 'package:PolyHxApp/utils/environment.dart';
 
 class SponsorsService {
-  Client _http;
-  TokenService _tokenService;
+  HttpClient _httpClient;
 
-  SponsorsService(this._http, this._tokenService);
+  SponsorsService(this._httpClient);
 
   Future<Map<String, List<Sponsors>>> getAllSponsors(String eventId) async {
-    final response = await this._http.get('${Environment.eventManagementUrl}/event/$eventId/sponsor',
-          headers: {'Authorization' : 'Bearer ${_tokenService.accessToken}'});
+    final response = await this._httpClient.get('${Environment.eventManagementUrl}/event/$eventId/sponsor');
     final responseMap = json.decode(response.body);
     Map<String, List<Sponsors>> result = {};
     if (responseMap.containsKey('Petabytes')) {

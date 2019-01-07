@@ -1,21 +1,17 @@
 import 'dart:convert';
 
 import 'package:PolyHxApp/domain/notification.dart';
-import 'package:PolyHxApp/services/token.service.dart';
 import 'package:PolyHxApp/utils/environment.dart';
-import 'package:http/http.dart';
+import 'package:PolyHxApp/utils/http-client.dart';
 
 class NotificationService {
-  final Client _http;
-  final TokenService _tokenService;
+  HttpClient _httpClient;
 
-  NotificationService(this._http, this._tokenService);
+  NotificationService(this._httpClient);
 
   Future<List<AppNotification>> getNotificationsForEvent(String eventId) async {
-    final headers = {'Authorization': 'Bearer ${_tokenService.accessToken}'};
-    final response = await _http.get(
-      '${Environment.eventManagementUrl}/event/$eventId/notification',
-      headers: headers
+    final response = await _httpClient.get(
+      '${Environment.eventManagementUrl}/event/$eventId/notification'
     );
     final responseMap = json.decode(response.body);
     List<AppNotification> notifications = [];
@@ -26,10 +22,8 @@ class NotificationService {
   }
 
   Future<int> getUnseenNotification(String eventId) async {
-    final headers = {'Authorization': 'Bearer ${_tokenService.accessToken}'};
-    final response = await _http.get(
-      '${Environment.eventManagementUrl}/event/$eventId/notification?seen=false',
-      headers: headers
+    final response = await _httpClient.get(
+      '${Environment.eventManagementUrl}/event/$eventId/notification?seen=false'
     );
 
     final responseMap = json.decode(response.body);
@@ -41,47 +35,40 @@ class NotificationService {
   }
 
   Future<bool> sendSms(String eventId, String message) async {
-    final headers = {'Authorization': 'Bearer ${_tokenService.accessToken}'};
     final body = {'text': message};
-    final response = await _http.post(
+    final response = await _httpClient.post(
       '${Environment.eventManagementUrl}/event/$eventId/sms',
-      body: body,
-      headers: headers
+      body: body
     );
     return response.statusCode == 201;
   }
 
   Future<bool> sendPushToEvent(String eventId, String title, String content) async {
-    final headers = {'Authorization': 'Bearer ${_tokenService.accessToken}'};
     final body = {'title': title, 'body': content};
-    final response = await _http.post(
+    final response = await _httpClient.post(
       '${Environment.eventManagementUrl}/event/$eventId/notification',
-      body: body,
-      headers: headers
+      body: body
     );
     return response.statusCode == 201;
   }
 
   Future<bool> sendPushToActivity(String activityId, String title, String content) async {
-    final headers = {'Authorization': 'Bearer ${_tokenService.accessToken}'};
     final body = {'title': title, 'body': content};
-    final response = await _http.post(
+    final response = await _httpClient.post(
       '${Environment.eventManagementUrl}/activity/$activityId/notification',
-      body: body,
-      headers: headers
+      body: body
     );
     return response.statusCode == 201;
   }
 
   Future<bool> markNotificationAsSeen(String id) async {
     final headers = {
-      'Authorization': 'Bearer ${_tokenService.accessToken}',
       'Content-type' : 'application/json',
       'Accept': 'application/json'
     };
     final body = json.encode({'notification': id, 'seen': true});
 
-    final response = await _http.put(
+    final response = await _httpClient.put(
       '${Environment.eventManagementUrl}/attendee/notification',
       body: body,
       headers: headers

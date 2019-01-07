@@ -1,18 +1,18 @@
 import 'dart:async';
 import 'dart:convert';
+import 'package:PolyHxApp/services/sts.dart';
 import 'package:PolyHxApp/utils/http-client.dart';
 import 'package:PolyHxApp/domain/user.dart';
-import 'package:PolyHxApp/utils//environment.dart';
 import 'package:PolyHxApp/utils/url-encoded-params.dart';
 
-class UsersService {
+class UsersService extends StsService {
   final HttpClient _httpClient;
 
-  UsersService(this._httpClient);
+  UsersService(this._httpClient) : super('user');
 
   Future<num> getUsersCount() async {
     try {
-      final response = await _httpClient.get("${Environment.stsUrl}/user/count");
+      final response = await _httpClient.get(this.get(path: 'user/count'));
       final responseMap = json.decode(response.body);
       return responseMap["count"];
     }
@@ -24,7 +24,7 @@ class UsersService {
 
   Future<List<User>> getAllUsers() async {
     try {
-      final response = await _httpClient.get("${Environment.stsUrl}/user");
+      final response = await _httpClient.get(this.get(path: 'user'));
       final responseMap = json.decode(response.body);
       List<User> users = [];
       responseMap["users"].forEach((userMap) => users.add(User.fromMap(userMap)));
@@ -38,7 +38,7 @@ class UsersService {
 
   Future<User> getUser(String id) async {
     try {
-      final response = await _httpClient.get("${Environment.stsUrl}/user/$id");
+      final response = await _httpClient.get(this.get(path: '$id'));
       var responseMap = json.decode(response.body);
       var user = User.fromMap(responseMap["user"]);
       return user;
@@ -52,7 +52,7 @@ class UsersService {
   Future<User> getUserByUsername(String username) async {
     try {
       username = username.toLowerCase();
-      final response = await _httpClient.get("${Environment.stsUrl}/user/username/$username");
+      final response = await _httpClient.get(this.get(path: 'username/$username'));
       final responseMap = json.decode(response.body);
       var user = User.fromMap(responseMap["user"]);
       return user;
@@ -80,7 +80,7 @@ class UsersService {
       final headers = {
         "Content-Type": "application/x-www-form-urlencoded"
       };
-      final response = await _httpClient.put("${Environment.stsUrl}/user/admin/${user.id}",
+      final response = await _httpClient.put(this.get(path: 'admin/${user.id}'),
                body: body.toString(), headers: headers
       );
       final responseMap = json.decode(response.body);
@@ -108,7 +108,7 @@ class UsersService {
       final headers = {
         "Content-Type": "application/x-www-form-urlencoded"
       };
-      final response = await _httpClient.post("${Environment.stsUrl}/user",
+      final response = await _httpClient.post(this.get(path: 'user'),
           body: body.toString(), headers: headers
       );
       final responseMap =  json.decode(response.body);

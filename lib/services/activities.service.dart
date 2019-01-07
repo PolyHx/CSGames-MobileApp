@@ -1,17 +1,17 @@
 import 'dart:convert';
 
 import 'package:PolyHxApp/domain/activity.dart';
-import 'package:PolyHxApp/utils/environment.dart';
+import 'package:PolyHxApp/services/event-management.service.dart';
 import 'package:PolyHxApp/utils/http-client.dart';
 
-class ActivitiesService {
+class ActivitiesService extends EventManagementService {
   HttpClient _httpClient;
 
-  ActivitiesService(this._httpClient);
+  ActivitiesService(this._httpClient) : super('activity');
 
   Future<bool> addSubscriptionToActivity(String attendeeId, String activityId) async {
     try {
-      final response = await _httpClient.put('${Environment.eventManagementUrl}/activity/$activityId/$attendeeId/subscription');
+      final response = await _httpClient.put(this.get(path: '$activityId/$attendeeId/subscription'));
       return response.statusCode == 200;
     } catch(err) {
       print('AttendeesService.addSubscriptionToActivity(): $err');
@@ -21,7 +21,7 @@ class ActivitiesService {
 
   Future<bool> verifyAttendeeSubscription(String attendeeId, String activityId) async {
     try {
-      final response = await _httpClient.get('${Environment.eventManagementUrl}/activity/$activityId/$attendeeId/subscription');
+      final response = await _httpClient.get(this.get(path: '$activityId/$attendeeId/subscription'));
       return response.statusCode == 200;
     } catch(err) {
       print('AttendeesService.addSubscriptionToActivity(): $err');
@@ -31,7 +31,7 @@ class ActivitiesService {
 
   Future<Activity> addAttendeeToActivity(String attendeeId, String activityId) async {
     try {
-      final response = await _httpClient.put('${Environment.eventManagementUrl}/activity/$activityId/$attendeeId/add');
+      final response = await _httpClient.put(this.get(path: '$activityId/$attendeeId/add'));
       final responseMap = json.decode(response.body);
       return Activity.fromMap(responseMap);
     }

@@ -1,16 +1,16 @@
 import 'dart:convert';
 
 import 'package:PolyHxApp/domain/sponsors.dart';
+import 'package:PolyHxApp/services/event-management.service.dart';
 import 'package:PolyHxApp/utils/http-client.dart';
-import 'package:PolyHxApp/utils/environment.dart';
 
-class SponsorsService {
+class SponsorsService extends EventManagementService {
   HttpClient _httpClient;
 
-  SponsorsService(this._httpClient);
+  SponsorsService(this._httpClient) : super('sponsor');
 
   Future<Map<String, List<Sponsors>>> getAllSponsors(String eventId) async {
-    final response = await this._httpClient.get('${Environment.eventManagementUrl}/event/$eventId/sponsor');
+    final response = await this._httpClient.get(this.getEvent(path: '$eventId/sponsor'));
     final responseMap = json.decode(response.body);
     Map<String, List<Sponsors>> result = {};
     if (responseMap.containsKey('Petabytes')) {

@@ -1,18 +1,16 @@
 import 'dart:convert';
 
 import 'package:PolyHxApp/domain/notification.dart';
-import 'package:PolyHxApp/utils/environment.dart';
+import 'package:PolyHxApp/services/event-management.service.dart';
 import 'package:PolyHxApp/utils/http-client.dart';
 
-class NotificationService {
+class NotificationService extends EventManagementService {
   HttpClient _httpClient;
 
-  NotificationService(this._httpClient);
+  NotificationService(this._httpClient) : super('notification');
 
   Future<List<AppNotification>> getNotificationsForEvent(String eventId) async {
-    final response = await _httpClient.get(
-      '${Environment.eventManagementUrl}/event/$eventId/notification'
-    );
+    final response = await _httpClient.get(this.getEvent(path: '$eventId/notification'));
     final responseMap = json.decode(response.body);
     List<AppNotification> notifications = [];
     for (var n in responseMap) {
@@ -23,7 +21,7 @@ class NotificationService {
 
   Future<int> getUnseenNotification(String eventId) async {
     final response = await _httpClient.get(
-      '${Environment.eventManagementUrl}/event/$eventId/notification?seen=false'
+        this.getEvent(path: '$eventId/notification?seen=false')
     );
 
     final responseMap = json.decode(response.body);
@@ -37,7 +35,7 @@ class NotificationService {
   Future<bool> sendSms(String eventId, String message) async {
     final body = {'text': message};
     final response = await _httpClient.post(
-      '${Environment.eventManagementUrl}/event/$eventId/sms',
+        this.getEvent(path: '$eventId/sms'),
       body: body
     );
     return response.statusCode == 201;
@@ -46,7 +44,7 @@ class NotificationService {
   Future<bool> sendPushToEvent(String eventId, String title, String content) async {
     final body = {'title': title, 'body': content};
     final response = await _httpClient.post(
-      '${Environment.eventManagementUrl}/event/$eventId/notification',
+        this.getEvent(path: '$eventId/notification'),
       body: body
     );
     return response.statusCode == 201;
@@ -55,7 +53,7 @@ class NotificationService {
   Future<bool> sendPushToActivity(String activityId, String title, String content) async {
     final body = {'title': title, 'body': content};
     final response = await _httpClient.post(
-      '${Environment.eventManagementUrl}/activity/$activityId/notification',
+        this.getActivity(path: '$activityId/notification'),
       body: body
     );
     return response.statusCode == 201;
@@ -69,7 +67,7 @@ class NotificationService {
     final body = json.encode({'notification': id, 'seen': true});
 
     final response = await _httpClient.put(
-      '${Environment.eventManagementUrl}/attendee/notification',
+        this.getAttendee(path: 'notification'),
       body: body,
       headers: headers
     );

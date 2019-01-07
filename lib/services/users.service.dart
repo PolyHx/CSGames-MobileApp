@@ -1,6 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
-import 'package:PolyHxApp/services/sts.dart';
+import 'package:PolyHxApp/services/sts.service.dart';
 import 'package:PolyHxApp/utils/http-client.dart';
 import 'package:PolyHxApp/domain/user.dart';
 import 'package:PolyHxApp/utils/url-encoded-params.dart';

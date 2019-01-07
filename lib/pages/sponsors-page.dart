@@ -20,7 +20,7 @@ class SponsorsPage extends StatelessWidget {
       value,
       textAlign: TextAlign.center,
       style: TextStyle(
-        fontFamily: 'Flipbash',
+        fontFamily: 'OpenSans',
         fontSize: 20.0
       )
     );
@@ -71,8 +71,7 @@ class SponsorsPage extends StatelessWidget {
               child: ListView(
                 scrollDirection: Axis.vertical,
                 shrinkWrap: true,
-                children: model.sponsors.isEmpty ? [] 
-                : _groupSponsors(context, model.sponsors)
+                children: model.sponsors.isEmpty ? [] : _groupSponsors(context, model.sponsors)
               )
             )
           ]

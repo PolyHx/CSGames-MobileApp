@@ -66,7 +66,7 @@ class NotificationListPage extends StatelessWidget {
                                   )
                                 )
                               )
-                            ),
+                            )
                           ]
                         ),
                         Padding(

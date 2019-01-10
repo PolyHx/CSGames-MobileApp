@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:PolyHxApp/components/time-card.dart';
 import 'package:PolyHxApp/components/title.dart';
 import 'package:PolyHxApp/pages/activity-description.dart';
@@ -31,6 +33,7 @@ class _ActivitiesScheduleState extends State<ActivitiesSchedulePage> with Ticker
     TabController _tabController;
     Map<String, Map<String, List<Activity>>> _activities;
     int currentTabIndex = 0;
+    StreamSubscription _currentTabSelectionSub;
 
     _ActivitiesScheduleState(this._eventId, this._userRole);
 
@@ -54,9 +57,11 @@ class _ActivitiesScheduleState extends State<ActivitiesSchedulePage> with Ticker
     }
 
     void _handleTabSelection() {
-        Future.delayed(Duration(seconds: 1), () {
+        if (_currentTabSelectionSub != null) {
+            _currentTabSelectionSub.cancel();
+        }
+        _currentTabSelectionSub = Future.delayed(Duration(seconds: 1)).asStream().listen((s) {
             setState(() => currentTabIndex = _tabController.index);
-            print(currentTabIndex);
         });
     }
 

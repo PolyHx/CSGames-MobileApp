@@ -29,9 +29,9 @@ class EventPage extends StatefulWidget {
     _EventPageState createState() => _EventPageState();
 }
 
-enum EventTabs { Info, Sponsors, Scan, Activities, Profile }
-enum VolunteerTabs { Info, Sponsors, Scan, Activities, Profile }
-enum AdminEventTabs { Notification, Sponsors, Scan, Activities, Profile }
+enum EventTabs { Scan, Info, Sponsors, Activities, Profile }
+enum VolunteerTabs { Scan, Info, Sponsors, Activities, Profile }
+enum AdminEventTabs { Scan, Notification, Sponsors, Activities, Profile }
 
 class _EventPageState extends State<EventPage> {
     int _currentTabIndex = 0;
@@ -119,6 +119,15 @@ class _EventPageState extends State<EventPage> {
         return <Widget>[
             IconButton(
                 icon: Icon(
+                    FontAwesomeIcons.info,
+                    color: _currentTabIndex == EventTabs.Scan.index ? Constants.polyhxRed : Colors.black
+                ),
+                onPressed: () {
+                    setState(() => _currentTabIndex = EventTabs.Scan.index);
+                }
+            ),
+            IconButton(
+                icon: Icon(
                     FontAwesomeIcons.book,
                     color: _currentTabIndex == EventTabs.Info.index ? Constants.polyhxRed : Colors.black
                 ),
@@ -134,13 +143,6 @@ class _EventPageState extends State<EventPage> {
                 onPressed: () {
                     setState(() => _currentTabIndex = EventTabs.Sponsors.index);
                 }
-            ),
-            IconButton(
-                icon: Icon(
-                    null,
-                    size: 30.0,
-                ),
-                onPressed: () => {}
             ),
             IconButton(
                 icon: Icon(
@@ -260,7 +262,7 @@ class _EventPageState extends State<EventPage> {
                         body: body,
                         resizeToAvoidBottomPadding: false,
                         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-                        floatingActionButton: _buildActionButton(model),
+//                        floatingActionButton: _buildActionButton(model),
                         bottomNavigationBar: _buildNavigationBar()
                     )
                 );

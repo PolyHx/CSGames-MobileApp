@@ -37,11 +37,11 @@ NotificationState _onHasUnseenNotification(NotificationState state, HasUnseenNot
   return NotificationState.unseen();
 }
 
-NotificationState _onPushSent(NotificationState state PushSentAction action) {
+NotificationState _onPushSent(NotificationState state, PushSentAction action) {
   return NotificationState.push();
 }
 
-NotificationState _onNotificationsNotSent(NotificationState state NotificationNotSentAction action) {
+NotificationState _onNotificationsNotSent(NotificationState state, NotificationNotSentAction action) {
   return NotificationState(
     notifications: [],
     isLoading: false,

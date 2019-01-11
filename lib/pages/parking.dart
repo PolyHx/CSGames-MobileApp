@@ -46,7 +46,7 @@ class _ParkingPageState extends State<ParkingState> {
         if (Platform.isIOS) {
             url = 'http://maps.apple.com/?daddr=$_latitudePrincipal,$_longitudePrincipal';
         } else if (Platform.isAndroid) {
-            url = 'geo:$_latitudePrincipal,$_longitudePrincipal';
+            url = 'https://www.google.com/maps/search/?api=1&query=École+Polytechnique+de+Montréal';
         }
         if (await canLaunch(url)) {
             await launch(url);

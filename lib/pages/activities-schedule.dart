@@ -33,7 +33,6 @@ class _ActivitiesScheduleState extends State<ActivitiesSchedulePage> with Ticker
     TabController _tabController;
     Map<String, Map<String, List<Activity>>> _activities;
     int currentTabIndex = 0;
-    StreamSubscription _currentTabSelectionSub;
 
     _ActivitiesScheduleState(this._eventId, this._userRole);
 
@@ -56,15 +55,6 @@ class _ActivitiesScheduleState extends State<ActivitiesSchedulePage> with Ticker
         return days.map((d) => Tab(text: d)).toList();
     }
 
-    void _handleTabSelection() {
-        if (_currentTabSelectionSub != null) {
-            _currentTabSelectionSub.cancel();
-        }
-        _currentTabSelectionSub = Future.delayed(Duration(seconds: 1)).asStream().listen((s) {
-            setState(() => currentTabIndex = _tabController.index);
-        });
-    }
-
     Widget _buildActivitiesList(BuildContext context, ActivitiesScheduleState state) {
         if (state.activities.keys.length != 0) {
             _activities = state.activities;
@@ -73,7 +63,7 @@ class _ActivitiesScheduleState extends State<ActivitiesSchedulePage> with Ticker
                 vsync: this,
                 initialIndex: currentTabIndex,
             );
-            _tabController.addListener(_handleTabSelection);
+            _tabController.addListener(() => currentTabIndex = _tabController.index);
         }
         if (_tabController == null) return Column(children: <Widget>[AppTitle(LocalizationService
             .of(context)

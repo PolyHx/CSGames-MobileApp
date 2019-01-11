@@ -49,7 +49,7 @@ class NotificationListPage extends StatelessWidget {
                                 notification.title,
                                 style: TextStyle(
                                   fontFamily: 'Raleway',
-                                  fontSize: 12.0,
+                                  fontSize: 11.0,
                                   fontWeight: FontWeight.bold
                                 )
                               )
@@ -62,15 +62,15 @@ class NotificationListPage extends StatelessWidget {
                                   notification.body,
                                   style: TextStyle(
                                     fontFamily: 'Raleway',
-                                    fontSize: 12.0
+                                    fontSize: 11.0
                                   )
                                 )
                               )
-                            ),
+                            )
                           ]
                         ),
                         Padding(
-                          padding: EdgeInsets.only(bottom: 8.0),
+                          padding: EdgeInsets.only(bottom: 3.0),
                           child: Text(
                             date,
                             style: TextStyle(

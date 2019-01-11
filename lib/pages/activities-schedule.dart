@@ -1,8 +1,5 @@
-import 'dart:async';
-
 import 'package:PolyHxApp/components/time-card.dart';
 import 'package:PolyHxApp/components/title.dart';
-import 'package:PolyHxApp/pages/activity-description.dart';
 import 'package:PolyHxApp/redux/actions/activities-schedule-actions.dart';
 import 'package:PolyHxApp/redux/state.dart';
 import 'package:PolyHxApp/redux/states/activities-schedule-state.dart';
@@ -37,13 +34,14 @@ class _ActivitiesScheduleState extends State<ActivitiesSchedulePage> with Ticker
     _ActivitiesScheduleState(this._eventId, this._userRole);
 
     void _showActivity(Activity activity) {
+        if (_userRole == "attendee") {
+            return;
+        }
         Navigator.push(
             context,
             MaterialPageRoute(
                 builder: (_) =>
-                _userRole == 'admin' || _userRole == 'volunteer' ? ActivityPage(activity) : ActivityDescriptionPage(activity, LocalizationService
-                    .of(context)
-                    .activity),
+                    ActivityPage(activity),
                 fullscreenDialog: true
             )
         );
@@ -94,7 +92,7 @@ class _ActivitiesScheduleState extends State<ActivitiesSchedulePage> with Ticker
                                 fontSize: MediaQuery
                                     .of(context)
                                     .size
-                                    .width * 0.04,
+                                    .width * 0.035,
                             ),
                             unselectedLabelColor: Colors.black,
                             labelColor: Colors.white,

@@ -165,28 +165,9 @@ class _EventPageState extends State<EventPage> {
         ];
     }
 
-    Widget _buildActionButton(_EventPageViewModel model) {
-        return Container(
-            width: 60.0,
-            height: 60.0,
-            child: FloatingActionButton(
-                backgroundColor: Constants.polyhxRed,
-                child: Icon(
-                    model.user.role == 'admin' || model.user.role == 'volunteer' ? Icons.camera_alt : FontAwesomeIcons.info,
-                    color: Colors.white,
-                    size: 40.0
-                ),
-                onPressed: () {
-                    setState(() => _currentTabIndex = EventTabs.Scan.index);
-                }
-            )
-        );
-    }
-
     Widget _buildNavigationBar() {
         return BottomAppBar(
             elevation: 20.0,
-            shape: CircularNotchedRectangle(),
             child: Row(
                 mainAxisSize: MainAxisSize.max,
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -199,7 +180,7 @@ class _EventPageState extends State<EventPage> {
         return AppBar(
             title: Text(
                 model.event.name,
-                style: TextStyle(fontFamily: 'Raleway')
+                style: TextStyle(fontFamily: 'OpenSans')
             ),
             actions: <Widget>[
                 Stack(
@@ -262,7 +243,6 @@ class _EventPageState extends State<EventPage> {
                         body: body,
                         resizeToAvoidBottomPadding: false,
                         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-//                        floatingActionButton: _buildActionButton(model),
                         bottomNavigationBar: _buildNavigationBar()
                     )
                 );

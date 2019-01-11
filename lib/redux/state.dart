@@ -2,7 +2,7 @@ import 'package:PolyHxApp/domain/attendee.dart';
 import 'package:PolyHxApp/domain/event.dart';
 import 'package:PolyHxApp/domain/user.dart';
 import 'package:PolyHxApp/redux/states/activities-schedule-state.dart';
-import 'package:PolyHxApp/redux/states/activity-description-state.dart';
+import 'package:PolyHxApp/redux/states/activities-subscription-state.dart';
 import 'package:PolyHxApp/redux/states/activity-state.dart';
 import 'package:PolyHxApp/redux/states/attendee-retrieval-state.dart';
 import 'package:PolyHxApp/redux/states/event-state.dart';
@@ -25,7 +25,7 @@ class AppState {
   final NotificationState notificationState;
   final AttendeeRetrievalState attendeeRetrievalState;
   final ActivitiesScheduleState activitiesScheduleState;
-  final ActivityDescriptionState activityDescriptionState;
+  final ActivitiesSubscriptionState activitiesSubscriptionState;
 
   AppState({
     this.eventState,
@@ -39,6 +39,6 @@ class AppState {
     this.notificationState,
     this.attendeeRetrievalState,
     this.activitiesScheduleState,
-    this.activityDescriptionState
+    this.activitiesSubscriptionState
   });
 }

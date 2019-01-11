@@ -1,6 +1,6 @@
 import 'package:PolyHxApp/delegates/localization.delegate.dart';
 import 'package:PolyHxApp/redux/middlewares/activities-schedule-middleware.dart';
-import 'package:PolyHxApp/redux/middlewares/activity-description-middleware.dart';
+import 'package:PolyHxApp/redux/middlewares/activities-subscription-middleware.dart';
 import 'package:PolyHxApp/redux/middlewares/activity-middleware.dart';
 import 'package:PolyHxApp/redux/middlewares/attendee-retrieval-middleware.dart';
 import 'package:PolyHxApp/redux/middlewares/login-middleware.dart';
@@ -8,7 +8,7 @@ import 'package:PolyHxApp/redux/middlewares/notification-middleware.dart';
 import 'package:PolyHxApp/redux/middlewares/profile-middleware.dart';
 import 'package:PolyHxApp/redux/middlewares/sponsors-middleware.dart';
 import 'package:PolyHxApp/redux/states/activities-schedule-state.dart';
-import 'package:PolyHxApp/redux/states/activity-description-state.dart';
+import 'package:PolyHxApp/redux/states/activities-subscription-state.dart';
 import 'package:PolyHxApp/redux/states/activity-state.dart';
 import 'package:PolyHxApp/redux/states/attendee-retrieval-state.dart';
 import 'package:PolyHxApp/redux/states/event-state.dart';
@@ -70,7 +70,7 @@ void main() {
             notificationState: NotificationState.initial(),
             attendeeRetrievalState: AttendeeRetrievalState.initial(),
             activitiesScheduleState: ActivitiesScheduleState.initial(),
-            activityDescriptionState: ActivityDescriptionState.initial()
+            activitiesSubscriptionState: ActivitiesSubscriptionState.initial()
         ),
         middleware: [
             EpicMiddleware<AppState>(SponsorsMiddleware(sponsorsService)),

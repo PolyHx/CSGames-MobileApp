@@ -34,4 +34,10 @@ class Activity {
         attendees = List.castFrom<dynamic, String>(map['attendees']);
         description = Map.castFrom<String, dynamic, String, String>(map['details'] ?? {});
     }
+
+    Activity.fromNotificationData(Map<String, dynamic> map) {
+        id = map['_id'];
+        name = map['name'];
+        type = map['type'];
+    }
 }

@@ -24,6 +24,7 @@ dependencies:
   google_maps_flutter: ^0.0.3+3
   fluttertoast: ^2.2.2
   timeago: ^2.0.10
+  flutter_local_notifications: ^0.4.3
 
 dev_dependencies:
   flutter_test:

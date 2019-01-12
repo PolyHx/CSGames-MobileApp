@@ -28,9 +28,9 @@ Map<String, dynamic> en = {
       'same-title': 'Scanned attendee error',
       'same-desc': 'Can not add yourself as a scanned attendee.',
       'register-title': 'Attendee not registered',
-      'register-desc': 'Current attendee is not registerd to this event.',
+      'register-desc': 'Current attendee is not registered to this event.',
       'register-scan-title': 'Attendee scanned not registered',
-      'register-scan-desc': 'Attendee scanned is not registerd to this event.'
+      'register-scan-desc': 'Attendee scanned is not registered to this event.'
     }
   },
   'sponsors': {

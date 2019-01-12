@@ -29,8 +29,8 @@ class EventPage extends StatefulWidget {
     _EventPageState createState() => _EventPageState();
 }
 
-enum EventTabs { Scan, Info, Sponsors, Activities, Profile }
-enum VolunteerTabs { Scan, Info, Sponsors, Activities, Profile }
+enum EventTabs { Info, Guide, Sponsors, Activities, Profile }
+enum VolunteerTabs { Scan, Guide, Sponsors, Activities, Profile }
 enum AdminEventTabs { Scan, Notification, Sponsors, Activities, Profile }
 
 class _EventPageState extends State<EventPage> {
@@ -39,10 +39,10 @@ class _EventPageState extends State<EventPage> {
     Widget _buildBody(_EventPageViewModel model) {
         Widget body;
         switch (EventTabs.values[_currentTabIndex]) {
-            case EventTabs.Scan:
+            case EventTabs.Info:
                 body = InfoPage(model.event);
                 break;
-            case EventTabs.Info:
+            case EventTabs.Guide:
                 body = EventInfoPage();
                 break;
             case EventTabs.Activities:
@@ -66,7 +66,7 @@ class _EventPageState extends State<EventPage> {
             case VolunteerTabs.Scan:
                 body = AttendeeRetrievalPage(model.event);
                 break;
-            case VolunteerTabs.Info:
+            case VolunteerTabs.Guide:
                 body = EventInfoPage();
                 break;
             case VolunteerTabs.Activities:
@@ -84,55 +84,55 @@ class _EventPageState extends State<EventPage> {
         return body;
     }
 
-  Widget _buildBodyAdmin(_EventPageViewModel model) {
-    Widget body;
-    switch (AdminEventTabs.values[_currentTabIndex]) {
-        case AdminEventTabs.Scan:
-            body = AttendeeRetrievalPage(model.event);
-            break;
-        case AdminEventTabs.Notification:
-            body = NotificationPage();
-            break;
-        case AdminEventTabs.Activities:
-            body = ActivitiesSchedulePage(model.event.id, model.user.role);
-            break;
-        case AdminEventTabs.Profile:
-            body = ProfilePage();
-            break;
-        case AdminEventTabs.Sponsors:
-            body = SponsorsPage();
-            break;
-        default:
-            break;
+    Widget _buildBodyAdmin(_EventPageViewModel model) {
+        Widget body;
+        switch (AdminEventTabs.values[_currentTabIndex]) {
+            case AdminEventTabs.Scan:
+                body = AttendeeRetrievalPage(model.event);
+                break;
+            case AdminEventTabs.Notification:
+                body = NotificationPage();
+                break;
+            case AdminEventTabs.Activities:
+                body = ActivitiesSchedulePage(model.event.id, model.user.role);
+                break;
+            case AdminEventTabs.Profile:
+                body = ProfilePage();
+                break;
+            case AdminEventTabs.Sponsors:
+                body = SponsorsPage();
+                break;
+            default:
+                break;
+        }
+        return body;
     }
-    return body;
-  }
 
-  Future<bool> _reset(_EventPageViewModel model) async {
-    model.resetAttendeeRetrieval();
-    model.resetSchedule();
-    model.resetSponsors();
-    return true;
-  }
+    Future<bool> _reset(_EventPageViewModel model) async {
+        model.resetAttendeeRetrieval();
+        model.resetSchedule();
+        model.resetSponsors();
+        return true;
+    }
 
     List<Widget> _buildItems() {
         return <Widget>[
             IconButton(
                 icon: Icon(
                     FontAwesomeIcons.info,
-                    color: _currentTabIndex == EventTabs.Scan.index ? Constants.polyhxRed : Colors.black
+                    color: _currentTabIndex == EventTabs.Info.index ? Constants.polyhxRed : Colors.black
                 ),
                 onPressed: () {
-                    setState(() => _currentTabIndex = EventTabs.Scan.index);
+                    setState(() => _currentTabIndex = EventTabs.Info.index);
                 }
             ),
             IconButton(
                 icon: Icon(
                     FontAwesomeIcons.book,
-                    color: _currentTabIndex == EventTabs.Info.index ? Constants.polyhxRed : Colors.black
+                    color: _currentTabIndex == EventTabs.Guide.index ? Constants.polyhxRed : Colors.black
                 ),
                 onPressed: () {
-                    setState(() => _currentTabIndex = EventTabs.Info.index);
+                    setState(() => _currentTabIndex = EventTabs.Guide.index);
                 }
             ),
             IconButton(
@@ -165,13 +165,125 @@ class _EventPageState extends State<EventPage> {
         ];
     }
 
-    Widget _buildNavigationBar() {
+    List<Widget> _buildVolunteerItems() {
+        return <Widget>[
+            IconButton(
+                icon: Icon(
+                    FontAwesomeIcons.qrcode,
+                    color: _currentTabIndex == VolunteerTabs.Scan.index ? Constants.polyhxRed : Colors.black
+                ),
+                onPressed: () {
+                    setState(() => _currentTabIndex = VolunteerTabs.Scan.index);
+                }
+            ),
+            IconButton(
+                icon: Icon(
+                    FontAwesomeIcons.book,
+                    color: _currentTabIndex == VolunteerTabs.Guide.index ? Constants.polyhxRed : Colors.black
+                ),
+                onPressed: () {
+                    setState(() => _currentTabIndex = VolunteerTabs.Guide.index);
+                }
+            ),
+            IconButton(
+                icon: Icon(
+                    FontAwesomeIcons.gem,
+                    color: _currentTabIndex == VolunteerTabs.Sponsors.index ? Constants.polyhxRed : Colors.black
+                ),
+                onPressed: () {
+                    setState(() => _currentTabIndex = VolunteerTabs.Sponsors.index);
+                }
+            ),
+            IconButton(
+                icon: Icon(
+                    FontAwesomeIcons.calendar,
+                    color: _currentTabIndex == VolunteerTabs.Activities.index ? Constants.polyhxRed : Colors.black
+                ),
+                onPressed: () {
+                    setState(() => _currentTabIndex = VolunteerTabs.Activities.index);
+                }
+            ),
+            IconButton(
+                icon: Icon(
+                    FontAwesomeIcons.userAlt,
+                    color: _currentTabIndex == VolunteerTabs.Profile.index ? Constants.polyhxRed : Colors.black
+                ),
+                onPressed: () {
+                    setState(() => _currentTabIndex = VolunteerTabs.Profile.index);
+                }
+            )
+        ];
+    }
+
+    List<Widget> _buildAdminItems() {
+        return <Widget>[
+            IconButton(
+                icon: Icon(
+                    FontAwesomeIcons.qrcode,
+                    color: _currentTabIndex == AdminEventTabs.Scan.index ? Constants.polyhxRed : Colors.black
+                ),
+                onPressed: () {
+                    setState(() => _currentTabIndex = AdminEventTabs.Scan.index);
+                }
+            ),
+            IconButton(
+                icon: Icon(
+                    FontAwesomeIcons.commentAlt,
+                    color: _currentTabIndex == AdminEventTabs.Notification.index ? Constants.polyhxRed : Colors.black
+                ),
+                onPressed: () {
+                    setState(() => _currentTabIndex = AdminEventTabs.Notification.index);
+                }
+            ),
+            IconButton(
+                icon: Icon(
+                    FontAwesomeIcons.gem,
+                    color: _currentTabIndex == AdminEventTabs.Sponsors.index ? Constants.polyhxRed : Colors.black
+                ),
+                onPressed: () {
+                    setState(() => _currentTabIndex = AdminEventTabs.Sponsors.index);
+                }
+            ),
+            IconButton(
+                icon: Icon(
+                    FontAwesomeIcons.calendar,
+                    color: _currentTabIndex == AdminEventTabs.Activities.index ? Constants.polyhxRed : Colors.black
+                ),
+                onPressed: () {
+                    setState(() => _currentTabIndex = AdminEventTabs.Activities.index);
+                }
+            ),
+            IconButton(
+                icon: Icon(
+                    FontAwesomeIcons.userAlt,
+                    color: _currentTabIndex == AdminEventTabs.Profile.index ? Constants.polyhxRed : Colors.black
+                ),
+                onPressed: () {
+                    setState(() => _currentTabIndex = AdminEventTabs.Profile.index);
+                }
+            )
+        ];
+    }
+
+    Widget _buildNavigationBar(_EventPageViewModel vm) {
+        List<Widget> items;
+        switch (vm.user.role) {
+            case 'admin':
+                items = _buildAdminItems();
+                break;
+            case 'volunteer':
+                items = _buildVolunteerItems();
+                break;
+            default:
+                items = _buildItems();
+                break;
+        }
         return BottomAppBar(
             elevation: 20.0,
             child: Row(
                 mainAxisSize: MainAxisSize.max,
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: _buildItems()
+                children: items
             )
         );
     }
@@ -202,18 +314,18 @@ class _EventPageState extends State<EventPage> {
                             top: 9.0,
                             right: 9.0,
                             child: Center(
-                              child: Container(
-                                width: 10,
-                                decoration: BoxDecoration(
-                                  color: model.hasUnseenNotifications == true ? Colors.white : Colors.transparent,
-                                  shape: BoxShape.circle
-                                ),
-                                child: Text('')
-                              )
+                                child: Container(
+                                    width: 10,
+                                    decoration: BoxDecoration(
+                                        color: model.hasUnseenNotifications == true ? Colors.white : Colors.transparent,
+                                        shape: BoxShape.circle
+                                    ),
+                                    child: Text('')
+                                )
                             )
                         )
                     ]
-                )  
+                )
             ]
         );
     }
@@ -243,7 +355,7 @@ class _EventPageState extends State<EventPage> {
                         body: body,
                         resizeToAvoidBottomPadding: false,
                         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-                        bottomNavigationBar: _buildNavigationBar()
+                        bottomNavigationBar: _buildNavigationBar(model)
                     )
                 );
             }
@@ -252,28 +364,26 @@ class _EventPageState extends State<EventPage> {
 }
 
 class _EventPageViewModel {
-  bool hasUnseenNotifications;
-  Event event;
-  User user;
-  Function resetSchedule;
-  Function resetAttendeeRetrieval;
-  Function resetSponsors;
+    bool hasUnseenNotifications;
+    Event event;
+    User user;
+    Function resetSchedule;
+    Function resetAttendeeRetrieval;
+    Function resetSponsors;
 
-  _EventPageViewModel(
-    this.hasUnseenNotifications,
-    this.event,
-    this.user,
-    this.resetSchedule,
-    this.resetAttendeeRetrieval,
-    this.resetSponsors
-  );
+    _EventPageViewModel(this.hasUnseenNotifications,
+        this.event,
+        this.user,
+        this.resetSchedule,
+        this.resetAttendeeRetrieval,
+        this.resetSponsors);
 
-  _EventPageViewModel.fromStore(Store<AppState> store) {
-    hasUnseenNotifications = store.state.notificationState.hasUnseenNotifications;
-    event = store.state.currentEvent;
-    user = store.state.currentUser;
-    resetSchedule = () => store.dispatch(ResetScheduleAction());
-    resetAttendeeRetrieval = () => store.dispatch(ResetAttendeeAction());
-    resetSponsors = () => store.dispatch(ResetSponsorsAction());
-  }
+    _EventPageViewModel.fromStore(Store<AppState> store) {
+        hasUnseenNotifications = store.state.notificationState.hasUnseenNotifications;
+        event = store.state.currentEvent;
+        user = store.state.currentUser;
+        resetSchedule = () => store.dispatch(ResetScheduleAction());
+        resetAttendeeRetrieval = () => store.dispatch(ResetAttendeeAction());
+        resetSponsors = () => store.dispatch(ResetSponsorsAction());
+    }
 }
